@@ -1,0 +1,26 @@
+name: Research task
+description: Propose a bounded transfer-verification task
+title: "[research] "
+labels: ["research"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Research question
+      description: What transfer property should be checked?
+    validations:
+      required: true
+  - type: textarea
+    id: synthetic-case
+    attributes:
+      label: Synthetic case
+      description: Describe the mock/local case. Do not include real credentials or third-party targets.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-artifact
+    attributes:
+      label: Expected artifact
+      description: What schema, report, test, or doc should result?
+    validations:
+      required: true
