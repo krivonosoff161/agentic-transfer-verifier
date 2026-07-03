@@ -128,7 +128,7 @@ Example output:
 {
     "model_version": "0.1",
     "envelope_id": "env-1",
-    "score": 0.352,
+    "score": 0.353,
     "level": "medium",
     "components": {
         "provenance_integrity": 0.0,

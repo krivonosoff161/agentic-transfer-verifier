@@ -7,6 +7,7 @@ contract, not a universal standard.
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
+from decimal import ROUND_HALF_UP, Decimal
 from typing import Any, Literal
 
 TrustLevel = Literal["untrusted", "user_confirmed", "tool_observed", "verified"]
@@ -93,7 +94,13 @@ class TransferRisk:
         return {
             "model_version": self.model_version,
             "envelope_id": self.envelope_id,
-            "score": round(self.score, 3),
+            "score": _round3(self.score),
             "level": self.level,
-            "components": {key: round(value, 3) for key, value in self.components.items()},
+            "components": {key: _round3(value) for key, value in self.components.items()},
         }
+
+
+def _round3(value: float) -> float:
+    """Stable report rounding across Python versions."""
+
+    return float(Decimal(f"{value:.12f}").quantize(Decimal("0.001"), rounding=ROUND_HALF_UP))

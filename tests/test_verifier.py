@@ -88,7 +88,8 @@ def test_untrusted_write_transfer_scores_authority_and_approval_risk():
     assert risk.components["authority_movement"] == 0.9
     assert risk.components["approval_binding"] == 0.45
     assert risk.components["freshness"] == 0.25
-    assert risk.to_dict()["score"] == 0.352
+    assert round(risk.score, 4) == 0.3525
+    assert risk.to_dict()["score"] == 0.353
 
 
 def test_missing_provenance_and_unbound_approval_raise_score():
@@ -105,7 +106,7 @@ def test_missing_provenance_and_unbound_approval_raise_score():
     assert risk.components["authority_movement"] == 1.0
     assert risk.components["approval_binding"] == 1.0
     assert round(risk.score, 4) == 0.7375
-    assert risk.to_dict()["score"] == 0.737
+    assert risk.to_dict()["score"] == 0.738
 
 
 def test_partial_provenance_gap_is_fractional():
