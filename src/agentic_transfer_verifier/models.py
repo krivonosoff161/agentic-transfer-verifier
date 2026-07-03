@@ -7,11 +7,13 @@ contract, not a universal standard.
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
+from decimal import ROUND_HALF_UP, Decimal
 from typing import Any, Literal
 
 TrustLevel = Literal["untrusted", "user_confirmed", "tool_observed", "verified"]
 AuthorityScope = Literal["none", "read", "write", "execute", "admin"]
 ReportStatus = Literal["PASS", "WARN", "FAIL"]
+RiskLevel = Literal["none", "low", "medium", "high"]
 
 
 @dataclass(frozen=True)
@@ -72,3 +74,33 @@ class VerificationReport:
             "status": self.status,
             "findings": [finding.to_dict() for finding in self.findings],
         }
+
+
+@dataclass(frozen=True)
+class TransferRisk:
+    """Deterministic research score for one transfer boundary.
+
+    The score is not a probability. It is a bounded structural risk index that
+    makes model assumptions explicit for replay and comparison.
+    """
+
+    envelope_id: str
+    score: float
+    level: RiskLevel
+    components: dict[str, float]
+    model_version: str = "0.1"
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "model_version": self.model_version,
+            "envelope_id": self.envelope_id,
+            "score": _round3(self.score),
+            "level": self.level,
+            "components": {key: _round3(value) for key, value in self.components.items()},
+        }
+
+
+def _round3(value: float) -> float:
+    """Stable report rounding across Python versions."""
+
+    return float(Decimal(f"{value:.12f}").quantize(Decimal("0.001"), rounding=ROUND_HALF_UP))

@@ -4,6 +4,8 @@
 
 - Dependency-free envelope model.
 - Deterministic verifier.
+- Deterministic structural risk score for provenance, authority, approval,
+  freshness, and auditability.
 - Basic provenance and authority checks.
 - Synthetic examples and tests.
 

@@ -4,15 +4,18 @@ from agentic_transfer_verifier.models import (
     Finding,
     ProvenanceStep,
     TransferEnvelope,
+    TransferRisk,
     VerificationReport,
 )
-from agentic_transfer_verifier.verifier import verify_envelope
+from agentic_transfer_verifier.verifier import assess_transfer_risk, verify_envelope
 
 __all__ = [
     "Finding",
     "ProvenanceStep",
     "TransferEnvelope",
+    "TransferRisk",
     "VerificationReport",
+    "assess_transfer_risk",
     "verify_envelope",
 ]
 

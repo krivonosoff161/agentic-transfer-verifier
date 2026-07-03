@@ -31,6 +31,7 @@ agent/runtime output -> structured envelope -> verification checks -> handoff re
 - Did authority travel with data accidentally?
 - Is the context stale or replayed?
 - Is the audit trail complete enough to review?
+- Which structural risk components explain the transfer's risk score?
 
 ## What This Is Not
 
@@ -92,6 +93,20 @@ print(report.status)       # PASS
 print(report.findings)     # []
 ```
 
+## Risk Model Example
+
+```python
+from agentic_transfer_verifier import assess_transfer_risk
+
+risk = assess_transfer_risk(envelope)
+print(risk.score)       # 0.0
+print(risk.components)  # provenance, authority, approval, freshness, auditability
+```
+
+The risk score is deterministic and structural. It is not a probability, not a
+certification result, and not a replacement for identity, signatures, runtime
+isolation, or policy enforcement. See [Trust/risk model](docs/trust-risk-model.md).
+
 ## Current Status
 
 Pre-release research skeleton:
@@ -99,6 +114,7 @@ Pre-release research skeleton:
 - local Python package;
 - structured transfer envelope;
 - deterministic verifier;
+- deterministic transfer risk assessment;
 - tests;
 - docs for the problem and boundary model.
 
@@ -109,6 +125,7 @@ No network calls. No provider credentials. No real target integrations.
 - [Problem statement](docs/problem-statement.md)
 - [Boundary model](docs/boundary-model.md)
 - [Data envelope](docs/data-envelope.md)
+- [Trust/risk model](docs/trust-risk-model.md)
 - [Roadmap](docs/roadmap.md)
 
 ## License

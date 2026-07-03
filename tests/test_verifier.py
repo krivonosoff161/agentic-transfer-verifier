@@ -1,4 +1,9 @@
-from agentic_transfer_verifier import ProvenanceStep, TransferEnvelope, verify_envelope
+from agentic_transfer_verifier import (
+    ProvenanceStep,
+    TransferEnvelope,
+    assess_transfer_risk,
+    verify_envelope,
+)
 
 
 def _base_envelope(**overrides):
@@ -60,3 +65,59 @@ def test_report_serializes_to_dict():
         "status": "PASS",
         "findings": [],
     }
+
+
+def test_minimal_boundary_has_no_structural_risk():
+    risk = assess_transfer_risk(_base_envelope())
+
+    assert risk.score == 0
+    assert risk.level == "none"
+    assert risk.components == {
+        "provenance_integrity": 0.0,
+        "authority_movement": 0.0,
+        "approval_binding": 0.0,
+        "freshness": 0.0,
+        "auditability": 0.0,
+    }
+
+
+def test_untrusted_write_transfer_scores_authority_and_approval_risk():
+    risk = assess_transfer_risk(_base_envelope(authority_scope="write"))
+
+    assert risk.level == "medium"
+    assert risk.components["authority_movement"] == 0.9
+    assert risk.components["approval_binding"] == 0.45
+    assert risk.components["freshness"] == 0.25
+    assert round(risk.score, 4) == 0.3525
+    assert risk.to_dict()["score"] == 0.353
+
+
+def test_missing_provenance_and_unbound_approval_raise_score():
+    risk = assess_transfer_risk(
+        _base_envelope(
+            authority_scope="execute",
+            approval_id="approval-1",
+            provenance=[],
+        )
+    )
+
+    assert risk.level == "high"
+    assert risk.components["provenance_integrity"] == 1.0
+    assert risk.components["authority_movement"] == 1.0
+    assert risk.components["approval_binding"] == 1.0
+    assert round(risk.score, 4) == 0.7375
+    assert risk.to_dict()["score"] == 0.738
+
+
+def test_partial_provenance_gap_is_fractional():
+    risk = assess_transfer_risk(
+        _base_envelope(
+            provenance=[
+                ProvenanceStep(actor="user", action="", source="chat"),
+                ProvenanceStep(actor="agent-a", action="summarized", source=""),
+            ]
+        )
+    )
+
+    assert risk.level == "low"
+    assert risk.components["provenance_integrity"] == 2 / 6
