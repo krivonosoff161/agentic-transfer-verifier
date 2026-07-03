@@ -12,6 +12,7 @@ from typing import Any, Literal
 TrustLevel = Literal["untrusted", "user_confirmed", "tool_observed", "verified"]
 AuthorityScope = Literal["none", "read", "write", "execute", "admin"]
 ReportStatus = Literal["PASS", "WARN", "FAIL"]
+RiskLevel = Literal["none", "low", "medium", "high"]
 
 
 @dataclass(frozen=True)
@@ -71,4 +72,28 @@ class VerificationReport:
             "envelope_id": self.envelope_id,
             "status": self.status,
             "findings": [finding.to_dict() for finding in self.findings],
+        }
+
+
+@dataclass(frozen=True)
+class TransferRisk:
+    """Deterministic research score for one transfer boundary.
+
+    The score is not a probability. It is a bounded structural risk index that
+    makes model assumptions explicit for replay and comparison.
+    """
+
+    envelope_id: str
+    score: float
+    level: RiskLevel
+    components: dict[str, float]
+    model_version: str = "0.1"
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "model_version": self.model_version,
+            "envelope_id": self.envelope_id,
+            "score": round(self.score, 3),
+            "level": self.level,
+            "components": {key: round(value, 3) for key, value in self.components.items()},
         }
