@@ -1,5 +1,14 @@
 """Agentic transfer verification primitives."""
 
+from agentic_transfer_verifier.adversarial import (
+    AttackChainCase,
+    AttackStep,
+    ChainAssessment,
+    DetectionSignal,
+    assess_attack_chain,
+    attack_chain_corpus,
+    detection_signal_catalog,
+)
 from agentic_transfer_verifier.models import (
     CapabilityGrant,
     Finding,
@@ -16,7 +25,11 @@ from agentic_transfer_verifier.scenarios import ScenarioCase, scenario_corpus
 from agentic_transfer_verifier.verifier import assess_transfer_risk, verify_envelope
 
 __all__ = [
+    "AttackChainCase",
+    "AttackStep",
     "CapabilityGrant",
+    "ChainAssessment",
+    "DetectionSignal",
     "Finding",
     "IdentityClaim",
     "ProvenanceStep",
@@ -26,8 +39,11 @@ __all__ = [
     "TransferRisk",
     "TransferRiskProfile",
     "VerificationReport",
+    "assess_attack_chain",
     "assess_transfer_profile",
     "assess_transfer_risk",
+    "attack_chain_corpus",
+    "detection_signal_catalog",
     "scenario_corpus",
     "verify_envelope",
 ]
