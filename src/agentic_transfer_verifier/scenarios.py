@@ -24,29 +24,7 @@ class ScenarioCase:
 def scenario_corpus() -> list[ScenarioCase]:
     """Return the built-in synthetic v0.2 transfer scenarios."""
 
-    base = TransferEnvelope(
-        envelope_id="base-user-brief",
-        producer="user",
-        consumer="agent-a",
-        payload_kind="task_brief",
-        trust_level="user_confirmed",
-        authority_scope="read",
-        payload={"task": "Summarize the docs."},
-        provenance=[ProvenanceStep(actor="user", action="created", source="chat")],
-        consumed_as="instruction",
-        allowed_uses=["execute"],
-        identity_claims=[
-            IdentityClaim(
-                subject="user",
-                issuer="local",
-                credential_type="session",
-                verified=True,
-                binding="base-user-brief",
-            )
-        ],
-        created_at="2026-07-04T00:00:00Z",
-        expires_at="2026-07-04T01:00:00Z",
-    )
+    base = _base_user_brief()
 
     clean = TransferEnvelope(
         envelope_id="clean-summary",
@@ -205,3 +183,29 @@ def scenario_corpus() -> list[ScenarioCase]:
         ),
         ScenarioCase("audit_gap", audit_gap, None, "low", ("profile_missing_provenance",)),
     ]
+
+
+def _base_user_brief() -> TransferEnvelope:
+    return TransferEnvelope(
+        envelope_id="base-user-brief",
+        producer="user",
+        consumer="agent-a",
+        payload_kind="task_brief",
+        trust_level="user_confirmed",
+        authority_scope="read",
+        payload={"task": "Summarize the docs."},
+        provenance=[ProvenanceStep(actor="user", action="created", source="chat")],
+        consumed_as="instruction",
+        allowed_uses=["execute"],
+        identity_claims=[
+            IdentityClaim(
+                subject="user",
+                issuer="local",
+                credential_type="session",
+                verified=True,
+                binding="base-user-brief",
+            )
+        ],
+        created_at="2026-07-04T00:00:00Z",
+        expires_at="2026-07-04T01:00:00Z",
+    )

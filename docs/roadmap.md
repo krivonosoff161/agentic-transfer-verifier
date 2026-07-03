@@ -18,11 +18,16 @@
 - Identity, capability, replay, instruction-boundary, and audit dimensions.
 - Scenario corpus for trust promotion, tool output, approval laundering, Agent
   Card capability drift, replayed memory, and audit gaps.
+- Adversarial transfer-chain model for ingress, role confusion, trust
+  promotion, authority/capability gain, action/persistence, and evidence
+  degradation.
 
 ## v0.3
 
 - JSON loader and CLI.
 - Report artifacts.
+- JSON fixtures for adversarial chain replay.
+- OWASP/MITRE mapping for detection signals.
 - Compatibility examples with `ai-agent-handoff`.
 - Cross-run diff for envelope changes.
 - Audit-chain checks.

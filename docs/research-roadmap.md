@@ -132,11 +132,14 @@ Candidate checks:
 - Identity and capability declarations.
 - Scenario corpus for tool output, memory, approval, Agent Cards, and audit
   gaps.
+- Adversarial transfer-chain model with detection signals and evidence
+  artifacts.
 
 ### v0.3
 
 - JSON loader and CLI.
 - Report artifacts.
+- OWASP/MITRE mapping for chain signals.
 - Cross-ecosystem transfer examples.
 - Compatibility notes with `ai-agent-handoff`.
 - Audit-chain checks.

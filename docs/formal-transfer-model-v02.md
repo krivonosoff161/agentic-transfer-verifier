@@ -3,6 +3,9 @@
 `assess_transfer_profile(...)` extends the original structural verifier into a
 small formal model for agent-to-agent transfer risk.
 
+For the deeper theoretical compromise and detection-chain model, see
+[adversarial-transfer-detection-model.md](adversarial-transfer-detection-model.md).
+
 The model is still local and deterministic. It does not contact providers,
 authenticate real identities, validate cryptographic signatures, or claim that a
 production agent is safe. Its job is narrower: make trust, provenance,
@@ -208,8 +211,7 @@ for scenario in scenario_corpus():
 ## Research Next
 
 - Add hash/signature verification adapters behind explicit optional interfaces.
-- Expand the corpus for perception artifacts, long-horizon memory, and
-  multi-agent delegated authority.
+- Expand benign counterexamples for false-positive calibration.
 - Add JSON fixtures for scenario replay.
 - Add report artifacts that combine verifier findings and v0.2 profile
   dimensions.

@@ -133,6 +133,25 @@ Built-in scenarios currently cover:
 
 See [Formal transfer model v0.2](docs/formal-transfer-model-v02.md).
 
+## Adversarial Chain Model
+
+The next research layer models theoretical compromise as a chain:
+
+```text
+ingress -> role confusion -> trust promotion -> authority/capability gain
+-> action or persistence -> evidence degradation
+```
+
+```python
+from agentic_transfer_verifier import assess_attack_chain, attack_chain_corpus
+
+for chain in attack_chain_corpus():
+    assessment = assess_attack_chain(chain)
+    print(chain.name, assessment.level, assessment.observed_signals)
+```
+
+See [Adversarial transfer detection model](docs/adversarial-transfer-detection-model.md).
+
 ## Current Status
 
 Research v0.2:
@@ -144,6 +163,7 @@ Research v0.2:
 - formal transfer profile for trust, identity, authority, capability, replay,
   instruction-boundary, and audit dimensions;
 - synthetic v0.2 scenario corpus;
+- adversarial transfer-chain model and synthetic chain corpus;
 - tests;
 - docs for the problem and boundary model.
 
@@ -156,6 +176,7 @@ No network calls. No provider credentials. No real target integrations.
 - [Data envelope](docs/data-envelope.md)
 - [Trust/risk model](docs/trust-risk-model.md)
 - [Formal transfer model v0.2](docs/formal-transfer-model-v02.md)
+- [Adversarial transfer detection model](docs/adversarial-transfer-detection-model.md)
 - [Roadmap](docs/roadmap.md)
 
 ## License
