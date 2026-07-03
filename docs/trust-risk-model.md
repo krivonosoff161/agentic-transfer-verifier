@@ -3,6 +3,9 @@
 This document defines the first public research model behind
 `assess_transfer_risk(...)`.
 
+For the newer parent -> child transfer profile, see
+[formal-transfer-model-v02.md](formal-transfer-model-v02.md).
+
 The model answers a narrow question:
 
 > Given one declared transfer envelope, which structural weaknesses make it
@@ -53,7 +56,8 @@ Where:
 - `producer` and `consumer` identify the declared endpoints;
 - `payload` is the content being transferred;
 - `provenance` is the declared chain of actors/actions/sources;
-- `trust` is one of `untrusted`, `user_confirmed`, `tool_observed`, `verified`;
+- `trust` is one of `untrusted`, `tool_observed`, `user_confirmed`,
+  `verified`, `signed`, `attested`;
 - `authority` is one of `none`, `read`, `write`, `execute`, `admin`;
 - `approval` is `approval_id` plus `approval_binding`;
 - `time` is `created_at` plus `expires_at`;
@@ -173,10 +177,11 @@ Known limits of this first model:
 
 ## Research Next
 
-The next research steps are:
+The next research layer is implemented in `assess_transfer_profile(...)` and
+documented in [formal-transfer-model-v02.md](formal-transfer-model-v02.md).
 
-- scenario corpus for tool output, memory write, approval, OCR transcript, and
-  cross-runtime summary transfers;
+Remaining research steps are:
+
 - calibration of component weights against synthetic failure cases;
 - optional hash/signature binding for payload and approval fields;
 - report artifacts that include verifier findings and risk components;

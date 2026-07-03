@@ -127,12 +127,16 @@ Candidate checks:
 
 ### v0.2
 
-- JSON loader and CLI.
-- Report artifacts.
-- More transfer scenarios: tool output, memory write, approval, OCR transcript.
+- Formal transfer profile for parent -> child handoffs.
+- Trust and authority lattice.
+- Identity and capability declarations.
+- Scenario corpus for tool output, memory, approval, Agent Cards, and audit
+  gaps.
 
 ### v0.3
 
+- JSON loader and CLI.
+- Report artifacts.
 - Cross-ecosystem transfer examples.
 - Compatibility notes with `ai-agent-handoff`.
 - Audit-chain checks.

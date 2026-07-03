@@ -10,10 +10,18 @@ from dataclasses import asdict, dataclass, field
 from decimal import ROUND_HALF_UP, Decimal
 from typing import Any, Literal
 
-TrustLevel = Literal["untrusted", "user_confirmed", "tool_observed", "verified"]
+TrustLevel = Literal[
+    "untrusted",
+    "tool_observed",
+    "user_confirmed",
+    "verified",
+    "signed",
+    "attested",
+]
 AuthorityScope = Literal["none", "read", "write", "execute", "admin"]
 ReportStatus = Literal["PASS", "WARN", "FAIL"]
 RiskLevel = Literal["none", "low", "medium", "high"]
+ConsumptionMode = Literal["data", "evidence", "memory", "instruction", "policy", "capability_grant"]
 
 
 @dataclass(frozen=True)
@@ -22,6 +30,31 @@ class ProvenanceStep:
     action: str
     source: str
     timestamp: str = ""
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
+class IdentityClaim:
+    subject: str
+    issuer: str = ""
+    credential_type: str = ""
+    verified: bool = False
+    binding: str = ""
+    expires_at: str = ""
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
+class CapabilityGrant:
+    name: str
+    scope: AuthorityScope
+    source: str = ""
+    bound_to: str = ""
+    expires_at: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -37,6 +70,10 @@ class TransferEnvelope:
     authority_scope: AuthorityScope
     payload: dict[str, Any]
     provenance: list[ProvenanceStep] = field(default_factory=list)
+    consumed_as: ConsumptionMode = "data"
+    allowed_uses: list[str] = field(default_factory=list)
+    identity_claims: list[IdentityClaim] = field(default_factory=list)
+    capabilities: list[CapabilityGrant] = field(default_factory=list)
     created_at: str = ""
     expires_at: str = ""
     approval_id: str = ""
@@ -47,6 +84,8 @@ class TransferEnvelope:
     def to_dict(self) -> dict[str, Any]:
         data = asdict(self)
         data["provenance"] = [step.to_dict() for step in self.provenance]
+        data["identity_claims"] = [claim.to_dict() for claim in self.identity_claims]
+        data["capabilities"] = [capability.to_dict() for capability in self.capabilities]
         return data
 
 
@@ -97,6 +136,47 @@ class TransferRisk:
             "score": _round3(self.score),
             "level": self.level,
             "components": {key: _round3(value) for key, value in self.components.items()},
+        }
+
+
+@dataclass(frozen=True)
+class TransferEdge:
+    """Declared parent -> child boundary used by the v0.2 profile model."""
+
+    parent_envelope_id: str
+    child_envelope_id: str
+    producer: str
+    consumer: str
+    trust_before: TrustLevel
+    trust_after: TrustLevel
+    authority_before: AuthorityScope
+    authority_after: AuthorityScope
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
+class TransferRiskProfile:
+    """Multi-dimensional v0.2 risk profile for one transfer boundary."""
+
+    envelope_id: str
+    score: float
+    level: RiskLevel
+    dimensions: dict[str, float]
+    violations: list[Finding] = field(default_factory=list)
+    edge: TransferEdge | None = None
+    model_version: str = "0.2"
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "model_version": self.model_version,
+            "envelope_id": self.envelope_id,
+            "score": _round3(self.score),
+            "level": self.level,
+            "dimensions": {key: _round3(value) for key, value in self.dimensions.items()},
+            "violations": [violation.to_dict() for violation in self.violations],
+            "edge": None if self.edge is None else self.edge.to_dict(),
         }
 
 

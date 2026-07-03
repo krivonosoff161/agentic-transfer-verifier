@@ -11,12 +11,18 @@
 
 ## v0.2
 
-- JSON loader and CLI.
-- Report artifacts.
-- More transfer scenarios: tool output, memory write, approval, OCR transcript.
+- Formal transfer profile for parent -> child agent handoffs.
+- Trust lattice: `untrusted < tool_observed < user_confirmed < verified <
+  signed < attested`.
+- Authority lattice: `none < read < write < execute < admin`.
+- Identity, capability, replay, instruction-boundary, and audit dimensions.
+- Scenario corpus for trust promotion, tool output, approval laundering, Agent
+  Card capability drift, replayed memory, and audit gaps.
 
 ## v0.3
 
+- JSON loader and CLI.
+- Report artifacts.
 - Compatibility examples with `ai-agent-handoff`.
 - Cross-run diff for envelope changes.
 - Audit-chain checks.

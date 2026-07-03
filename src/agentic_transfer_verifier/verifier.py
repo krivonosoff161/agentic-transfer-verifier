@@ -23,6 +23,8 @@ _TRUST_RANK = {
     "user_confirmed": 1,
     "tool_observed": 1,
     "verified": 2,
+    "signed": 3,
+    "attested": 3,
 }
 
 _RISK_WEIGHTS = {

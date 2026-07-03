@@ -1,6 +1,6 @@
 # Agentic Transfer Verifier
 
-Research toolkit for validating data, context, provenance, and authority
+Research toolkit for validating data, context, provenance, trust, and authority
 handoffs between heterogeneous AI agent runtimes.
 
 This repository is part of the **Agentic AI Security core**:
@@ -27,8 +27,10 @@ agent/runtime output -> structured envelope -> verification checks -> handoff re
 
 - Did the payload keep its declared source and provenance chain?
 - Did trust level increase without an explicit verifier?
+- Did an agent handoff promote trust or authority across a parent -> child edge?
 - Did an approval remain bound to the exact action it approved?
 - Did authority travel with data accidentally?
+- Did tool output, memory, or an Agent Card become instruction or capability?
 - Is the context stale or replayed?
 - Is the audit trail complete enough to review?
 - Which structural risk components explain the transfer's risk score?
@@ -41,8 +43,8 @@ agent/runtime output -> structured envelope -> verification checks -> handoff re
 - Not a live exploit tool.
 - Not a replacement for access control, identity, or cryptographic protocols.
 
-The first release is deliberately small and local. It uses synthetic examples
-and deterministic checks only.
+The current research release is deliberately small and local. It uses synthetic
+examples and deterministic checks only.
 
 ## Relationship To Other Projects
 
@@ -107,14 +109,41 @@ The risk score is deterministic and structural. It is not a probability, not a
 certification result, and not a replacement for identity, signatures, runtime
 isolation, or policy enforcement. See [Trust/risk model](docs/trust-risk-model.md).
 
+## Formal Transfer Profile v0.2
+
+v0.2 adds a multi-dimensional profile for parent -> child agent transfers:
+
+```python
+from agentic_transfer_verifier import assess_transfer_profile, scenario_corpus
+
+for scenario in scenario_corpus():
+    profile = assess_transfer_profile(scenario.envelope, parent=scenario.parent)
+    print(scenario.name, profile.level, profile.to_dict()["score"])
+```
+
+Built-in scenarios currently cover:
+
+- clean handoff;
+- unverified trust promotion;
+- tool output consumed as instruction;
+- approval laundering;
+- Agent Card capability drift;
+- replayed memory consumed as policy;
+- missing provenance audit gap.
+
+See [Formal transfer model v0.2](docs/formal-transfer-model-v02.md).
+
 ## Current Status
 
-Pre-release research skeleton:
+Research v0.2:
 
 - local Python package;
 - structured transfer envelope;
 - deterministic verifier;
 - deterministic transfer risk assessment;
+- formal transfer profile for trust, identity, authority, capability, replay,
+  instruction-boundary, and audit dimensions;
+- synthetic v0.2 scenario corpus;
 - tests;
 - docs for the problem and boundary model.
 
@@ -126,6 +155,7 @@ No network calls. No provider credentials. No real target integrations.
 - [Boundary model](docs/boundary-model.md)
 - [Data envelope](docs/data-envelope.md)
 - [Trust/risk model](docs/trust-risk-model.md)
+- [Formal transfer model v0.2](docs/formal-transfer-model-v02.md)
 - [Roadmap](docs/roadmap.md)
 
 ## License
