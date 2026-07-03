@@ -3,6 +3,15 @@
 Research toolkit for validating data, context, provenance, and authority
 handoffs between heterogeneous AI agent runtimes.
 
+This repository is part of the **Agentic AI Security core**:
+
+```text
+playbooks make boundaries explicit
+-> handoff files move work between agents
+-> transfer verifier checks provenance, trust, and authority
+-> security harness measures boundary failures with evidence
+```
+
 Agent systems increasingly pass information through files, tool output, memory,
 browser/OCR/audio transcripts, IDE state, and summaries written by another
 model. Those transfers are often plain text. Plain text is easy to move, but it
@@ -38,6 +47,9 @@ and deterministic checks only.
 
 - [agentic-security-harness](https://github.com/krivonosoff161/agentic-security-harness)
   measures agentic failure modes with traces and scorecards.
+- [llm-safety-playbooks](https://github.com/krivonosoff161/llm-safety-playbooks)
+  gives lightweight task-brief rules for making LLM and agent boundaries
+  explicit before deeper verification is available.
 - [ai-agent-handoff](https://github.com/krivonosoff161/ai-agent-handoff)
   provides a practical file-based handoff protocol for coding agents.
 - `agentic-transfer-verifier` focuses on validating the handoff data itself:
