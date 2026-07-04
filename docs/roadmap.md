@@ -21,12 +21,15 @@
 - Adversarial transfer-chain model for ingress, role confusion, trust
   promotion, authority/capability gain, action/persistence, and evidence
   degradation.
+- Private asset leakage model for protected assets, allowed/forbidden sinks,
+  required redaction, sink approval scope, and canary evidence.
 
 ## v0.3
 
 - JSON loader and CLI.
 - Report artifacts.
 - JSON fixtures for adversarial chain replay.
+- JSON fixtures for asset/sink policies and redacted leak traces.
 - OWASP/MITRE mapping for detection signals.
 - Compatibility examples with `ai-agent-handoff`.
 - Cross-run diff for envelope changes.

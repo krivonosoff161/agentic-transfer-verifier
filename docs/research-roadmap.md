@@ -134,12 +134,14 @@ Candidate checks:
   gaps.
 - Adversarial transfer-chain model with detection signals and evidence
   artifacts.
+- Private asset leakage model for canary-protected assets and sink confusion.
 
 ### v0.3
 
 - JSON loader and CLI.
 - Report artifacts.
 - OWASP/MITRE mapping for chain signals.
+- Split-leak and redacted trace fixtures for private asset leakage.
 - Cross-ecosystem transfer examples.
 - Compatibility notes with `ai-agent-handoff`.
 - Audit-chain checks.

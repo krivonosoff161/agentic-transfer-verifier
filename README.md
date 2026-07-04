@@ -152,6 +152,26 @@ for chain in attack_chain_corpus():
 
 See [Adversarial transfer detection model](docs/adversarial-transfer-detection-model.md).
 
+## Private Asset Leakage Model
+
+The sink model checks whether a protected asset moves to the wrong output
+surface:
+
+```python
+from agentic_transfer_verifier import assess_sink_attempt, leakage_scenario_corpus
+
+for case in leakage_scenario_corpus():
+    assessment = assess_sink_attempt(case)
+    print(case.name, assessment.level, assessment.to_dict()["score"])
+```
+
+The built-in example uses a synthetic `PRIVATE_TRADING_SIGNAL_CANARY`, not a real
+trading strategy. It models allowed private delivery, public report leakage,
+external LLM context leakage, debug trace exposure, memory persistence, redacted
+training export, and GitHub issue/PR leakage.
+
+See [Private asset leakage model](docs/private-asset-leakage-model.md).
+
 ## Current Status
 
 Research v0.2:
@@ -164,6 +184,7 @@ Research v0.2:
   instruction-boundary, and audit dimensions;
 - synthetic v0.2 scenario corpus;
 - adversarial transfer-chain model and synthetic chain corpus;
+- private asset leakage model and synthetic sink corpus;
 - tests;
 - docs for the problem and boundary model.
 
@@ -177,6 +198,7 @@ No network calls. No provider credentials. No real target integrations.
 - [Trust/risk model](docs/trust-risk-model.md)
 - [Formal transfer model v0.2](docs/formal-transfer-model-v02.md)
 - [Adversarial transfer detection model](docs/adversarial-transfer-detection-model.md)
+- [Private asset leakage model](docs/private-asset-leakage-model.md)
 - [Roadmap](docs/roadmap.md)
 
 ## License

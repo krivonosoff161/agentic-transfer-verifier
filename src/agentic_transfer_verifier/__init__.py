@@ -9,6 +9,14 @@ from agentic_transfer_verifier.adversarial import (
     attack_chain_corpus,
     detection_signal_catalog,
 )
+from agentic_transfer_verifier.asset_leakage import (
+    ProtectedAsset,
+    SinkAssessment,
+    SinkAttempt,
+    assess_sink_attempt,
+    leakage_scenario_corpus,
+    trading_signal_canary,
+)
 from agentic_transfer_verifier.models import (
     CapabilityGrant,
     Finding,
@@ -33,18 +41,24 @@ __all__ = [
     "Finding",
     "IdentityClaim",
     "ProvenanceStep",
+    "ProtectedAsset",
     "ScenarioCase",
+    "SinkAssessment",
+    "SinkAttempt",
     "TransferEnvelope",
     "TransferEdge",
     "TransferRisk",
     "TransferRiskProfile",
     "VerificationReport",
     "assess_attack_chain",
+    "assess_sink_attempt",
     "assess_transfer_profile",
     "assess_transfer_risk",
     "attack_chain_corpus",
     "detection_signal_catalog",
+    "leakage_scenario_corpus",
     "scenario_corpus",
+    "trading_signal_canary",
     "verify_envelope",
 ]
 
