@@ -1,5 +1,10 @@
 # Private Asset Leakage Model
 
+Portfolio-level public/private rules are defined in the
+[Documentation Contract](https://github.com/krivonosoff161/krivonosoff161/blob/main/docs/documentation-contract.md).
+This model narrows that rule for private-asset movement through agentic
+workflows.
+
 This document defines the private-asset leakage model behind
 `assess_sink_attempt(...)`.
 
