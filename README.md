@@ -58,6 +58,11 @@ examples and deterministic checks only.
 - `agentic-transfer-verifier` focuses on validating the handoff data itself:
   envelope, provenance, trust level, authority, freshness, and auditability.
 
+Portfolio-level documentation authority and public/private storage rules live in
+the [Documentation Contract](https://github.com/krivonosoff161/krivonosoff161/blob/main/docs/documentation-contract.md).
+This repository owns transfer-verification models; it does not redefine the
+whole portfolio.
+
 ## Install
 
 ```bash
