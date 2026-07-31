@@ -1,5 +1,7 @@
 # Agentic Transfer Verifier
 
+Portfolio ownership and evidence ceilings: [Security Portfolio module contract](docs/security-portfolio-roadmap.md).
+
 Research toolkit for validating data, context, provenance, trust, and authority
 handoffs between heterogeneous AI agent runtimes.
 
