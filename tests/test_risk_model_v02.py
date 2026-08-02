@@ -1,3 +1,5 @@
+from typing import Any
+
 from agentic_transfer_verifier import (
     CapabilityGrant,
     IdentityClaim,
@@ -35,8 +37,8 @@ def _verified_parent() -> TransferEnvelope:
     )
 
 
-def _child(**overrides) -> TransferEnvelope:
-    data = {
+def _child(**overrides: Any) -> TransferEnvelope:
+    data: dict[str, Any] = {
         "envelope_id": "child",
         "producer": "agent-a",
         "consumer": "agent-b",
