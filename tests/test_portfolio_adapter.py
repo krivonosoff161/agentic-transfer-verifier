@@ -152,8 +152,14 @@ def test_loader_rejects_wrong_nested_types_nonfinite_and_oversized_input() -> No
         b'{"synthetic": "bounded example"}',
         b'{"nested":' + (b"[" * 1_100) + b"0" + (b"]" * 1_100) + b"}",
     )
-    with pytest.raises(TransferEnvelopeContractError, match="valid UTF-8 JSON"):
+    with pytest.raises(TransferEnvelopeContractError, match="JSON nesting|valid UTF-8 JSON"):
         load_transfer_envelope(deeply_nested)
+    bounded_parser_depth = _encoded().replace(
+        b'{"synthetic": "bounded example"}',
+        b'{"nested":' + (b"[" * 70) + b"0" + (b"]" * 70) + b"}",
+    )
+    with pytest.raises(TransferEnvelopeContractError, match="JSON nesting"):
+        load_transfer_envelope(bounded_parser_depth)
     with pytest.raises(TransferEnvelopeContractError, match="byte limit"):
         load_transfer_envelope(b"x" * (MAX_TRANSFER_ENVELOPE_BYTES + 1))
     with pytest.raises(TransferEnvelopeContractError, match="cardinality"):

@@ -22,6 +22,7 @@ PORTFOLIO_OBSERVATION_V1 = "portfolio-observation-v1.0"
 PORTFOLIO_ADAPTER_AUDIT_V1 = "portfolio-adapter-audit-v1.0"
 MAX_TRANSFER_ENVELOPE_BYTES = 65_536
 MAX_TRANSFER_COLLECTION_ITEMS = 64
+MAX_TRANSFER_JSON_NESTING = 64
 MAX_PORTFOLIO_OBSERVATION_BYTES = 4_096
 MAX_OBSERVATION_ENTITY_REFS = 64
 MAX_OBSERVATION_PARENT_EVENTS = 64
@@ -378,6 +379,7 @@ def load_transfer_envelope(payload: bytes) -> TransferEnvelope:
         raise TransferEnvelopeContractError("transfer envelope is not valid UTF-8 JSON") from exc
     if not isinstance(decoded, dict):
         raise TransferEnvelopeContractError("transfer envelope must be a JSON object")
+    _ensure_json_nesting(decoded)
     _require_exact_fields(decoded, _SOURCE_FIELDS, where="transfer envelope")
     _require_exact_type(decoded["schema_version"], str, field="schema_version")
     if decoded["schema_version"] != TRANSFER_ENVELOPE_SCHEMA:
@@ -647,3 +649,17 @@ def _strict_object(pairs: list[tuple[str, object]]) -> dict[str, object]:
 
 def _reject_json_constant(value: str) -> None:
     raise TransferEnvelopeContractError(f"non-finite JSON value is forbidden: {value}")
+
+
+def _ensure_json_nesting(value: object) -> None:
+    """Reject parser-dependent excessive nesting without recursive traversal."""
+
+    pending: list[tuple[object, int]] = [(value, 1)]
+    while pending:
+        current, depth = pending.pop()
+        if depth > MAX_TRANSFER_JSON_NESTING:
+            raise TransferEnvelopeContractError("transfer envelope JSON nesting exceeds limit")
+        if isinstance(current, dict):
+            pending.extend((item, depth + 1) for item in current.values())
+        elif isinstance(current, list):
+            pending.extend((item, depth + 1) for item in current)
