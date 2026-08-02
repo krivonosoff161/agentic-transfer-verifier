@@ -12,7 +12,7 @@ import hashlib
 import json
 import re
 from dataclasses import asdict, dataclass
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from typing import Any, Literal, cast
 
 from .models import CapabilityGrant, IdentityClaim, ProvenanceStep, TransferEnvelope
@@ -29,6 +29,7 @@ MAX_OBSERVATION_PARENT_EVENTS = 64
 MAX_ADAPTER_AUDIT_FIELDS = 128
 MAX_ADAPTER_AUDIT_MAPPINGS = 128
 MAX_ADAPTER_AUDIT_REASON_CODES = 64
+UTC = timezone.utc
 MAX_SUPPORTED_TIME = datetime(2100, 1, 1, tzinfo=UTC)
 
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
