@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from agentic_transfer_verifier.models import (
     Finding,
+    ReportStatus,
     RiskLevel,
     TransferEnvelope,
     TransferRisk,
@@ -100,7 +101,7 @@ def verify_envelope(envelope: TransferEnvelope) -> VerificationReport:
             )
         )
 
-    status = "PASS"
+    status: ReportStatus = "PASS"
     if any(f.severity == "high" for f in findings):
         status = "FAIL"
     elif findings:
