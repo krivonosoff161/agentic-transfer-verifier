@@ -1,0 +1,82 @@
+{
+  "schema_version": "AgenticSecurityEcosystemComponent.v1",
+  "component_id": "agentic-transfer-verifier",
+  "display_name": "Agentic Transfer Verifier",
+  "repository": "https://github.com/krivonosoff161/agentic-transfer-verifier",
+  "visibility": "public",
+  "kind": "check_extension",
+  "summary": "Deterministic structural verification for provenance, trust, freshness, approval, capability, authority, and bounded transfer risk.",
+  "package": {
+    "name": "agentic-transfer-verifier",
+    "version": "0.2.0",
+    "install": "pip install .",
+    "entry_points": []
+  },
+  "owns": {
+    "modules": ["M04-transfer-verifier"],
+    "checks": [
+      "transfer-envelope-verification",
+      "transfer-risk-profile",
+      "adversarial-transfer-chain",
+      "private-asset-sink"
+    ],
+    "collectors": [],
+    "adapters": ["portfolio-observation-v1"],
+    "contracts": []
+  },
+  "consumes": [
+    "Agentic Security Harness component manifest contract",
+    "authority-free portfolio observation v1"
+  ],
+  "contracts": [
+    {
+      "id": "component-manifest",
+      "version": "1",
+      "direction": "consumes",
+      "required": true
+    },
+    {
+      "id": "portfolio-observation",
+      "version": "1",
+      "direction": "consumes",
+      "required": true
+    }
+  ],
+  "docs": [
+    {"path": "README.md", "role": "component-front-door"},
+    {"path": "docs/component-roadmap.md", "role": "component-owned"},
+    {"path": "docs/roadmap.md", "role": "superseded"},
+    {"path": "docs/research-roadmap.md", "role": "research"},
+    {"path": "docs/security-portfolio-roadmap.md", "role": "historical"},
+    {"path": "docs/security-portfolio-roadmap-public.yaml", "role": "historical"},
+    {"path": "docs/security-portfolio-roadmap-contract.json", "role": "historical"}
+  ],
+  "compatibility": {
+    "harness_api": "not-yet-declared",
+    "python": ">=3.11",
+    "platforms": {
+      "supported": ["linux", "windows"],
+      "tested": ["linux"]
+    }
+  },
+  "integration_status": "contract_only",
+  "evidence_refs": [
+    "tests/test_verifier.py",
+    "tests/test_risk_model_v02.py",
+    "tests/test_portfolio_adapter.py",
+    "contracts/portfolio-observation.v1.manifest.json"
+  ],
+  "claims": [
+    "deterministic structural transfer checks",
+    "synthetic transfer and sink scenario corpora",
+    "authority-free portfolio observation adapter"
+  ],
+  "non_claims": [
+    "authenticated producer identity",
+    "cryptographic transfer verification",
+    "semantic truth or incident probability",
+    "production policy enforcement",
+    "installable Agentic Security Harness extension today"
+  ],
+  "authority": "none"
+}
