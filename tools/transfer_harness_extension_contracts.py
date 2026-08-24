@@ -16,8 +16,8 @@ EXTENSION_MANIFEST = EXTENSION_ROOT / "ash-extension-manifest.json"
 CONTRACT_MANIFEST = ROOT / "contracts" / "transfer-harness-extension.v1.manifest.json"
 
 HARNESS_REPOSITORY = "https://github.com/krivonosoff161/agentic-security-harness"
-HARNESS_COMMIT = "285d05ad64239dd55271e5c534041b235db0e243"
-HARNESS_TREE = "8b9cdcd7bba6eb8d6c584872865463a987a56752"
+HARNESS_COMMIT = "6354635c6411830de95dd3b68c962eb887cb5edb"
+HARNESS_TREE = "e9609592fe4fd3f7ab89c0bdf48ed68fb0178516"
 HARNESS_FILES = (
     "src/agentic_security_harness/extension_sdk.py",
     "src/agentic_security_harness/extension_distribution.py",
