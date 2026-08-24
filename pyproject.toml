@@ -29,6 +29,8 @@ dev = [
   "mypy>=1.13",
   "pytest>=8",
   "ruff>=0.8",
+  "setuptools>=77",
+  "wheel>=0.44",
 ]
 
 [tool.setuptools.packages.find]
