@@ -325,6 +325,13 @@ def test_generated_contracts_and_extension_source_are_closed() -> None:
     assert manifest["future_harness_package_boundary"] == ">=1.3,<2"
     assert manifest["operational_authority"] == "none"
     assert manifest["source_closure_byte_semantics"] == "utf8-canonical-lf"
+    generated_contract = "contracts/transfer-harness-extension.v1.manifest.json"
+    contract_eol = subprocess.check_output(
+        ["git", "check-attr", "eol", "--", generated_contract],
+        cwd=ROOT,
+        text=True,
+    )
+    assert contract_eol.strip() == f"{generated_contract}: eol: lf"
     configuration = json.loads((EXTENSION_ROOT / "configuration.json").read_text("utf-8"))
     for binding in configuration["core_distribution"]["runtime_files"]:
         git_blob = subprocess.check_output(["git", "show", f"HEAD:src/{binding['path']}"], cwd=ROOT)
