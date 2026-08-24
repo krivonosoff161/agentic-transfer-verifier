@@ -9,7 +9,7 @@ import subprocess
 import sys
 import types
 import zipfile
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -109,7 +109,7 @@ def _event(portfolio_contract: Any, *, activity: str, telemetry: str, seed: str)
         project_id="agentic-transfer-verifier",
         repository_id="krivonosoff161/agentic-transfer-verifier",
         repository_sha="1" * 40,
-        occurred_at=datetime(2026, 8, 24, 6, 0, tzinfo=UTC),
+        occurred_at=datetime(2026, 8, 24, 6, 0, tzinfo=timezone.utc),
         producer_id_hash="2" * 64,
         producer_attestation="unattested",
         source_surface="agent",

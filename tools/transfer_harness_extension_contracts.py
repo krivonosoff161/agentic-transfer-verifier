@@ -70,7 +70,7 @@ def generated_files(harness_root: Path) -> dict[Path, bytes]:
         harness_bindings.append(
             {
                 "path": relative,
-                "sha256": hashlib.sha256(_exact_lf_bytes(harness_root / relative)).hexdigest(),
+                "sha256": hashlib.sha256(_canonical_lf_bytes(harness_root / relative)).hexdigest(),
             }
         )
     local_closure = [
@@ -93,6 +93,7 @@ def generated_files(harness_root: Path) -> dict[Path, bytes]:
             "repository": HARNESS_REPOSITORY,
             "commit": HARNESS_COMMIT,
             "tree": HARNESS_TREE,
+            "byte_semantics": "utf8-canonical-lf",
             "files": harness_bindings,
         },
         "extension_files": [

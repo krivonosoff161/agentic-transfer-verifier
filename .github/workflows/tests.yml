@@ -57,19 +57,23 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install local test tools and scan the public source tree
+        run: |
+          python -m pip install ".[dev]"
+          python tools/secret_hygiene.py
+      - name: Check out exact Harness lifecycle source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: krivonosoff161/agentic-security-harness
           ref: 285d05ad64239dd55271e5c534041b235db0e243
           path: components/harness-lifecycle-v1
           persist-credentials: false
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: pip
-      - name: Install exact SDK and local test tools
+      - name: Install exact SDK
         run: |
-          python -m pip install ".[dev]"
           python -m pip install -e components/harness-lifecycle-v1
       - name: Exact generated and static gates
         run: |
@@ -77,7 +81,6 @@ jobs:
           python -m ruff check --no-cache extensions/transfer_harness_extension_v1 tools/transfer_harness_extension_contracts.py tests/test_transfer_harness_extension_v1.py
           python -m mypy --follow-untyped-imports extensions/transfer_harness_extension_v1/agentic_transfer_verifier_extension.py tools/transfer_harness_extension_contracts.py tests/test_transfer_harness_extension_v1.py
           python -m bandit -q -r extensions/transfer_harness_extension_v1 tools/transfer_harness_extension_contracts.py -ll
-          python tools/secret_hygiene.py
       - name: Installed-wheel inspect approve bind and run smoke
         env:
           ASH_HARNESS_SDK_ROOT: ${{ github.workspace }}/components/harness-lifecycle-v1
