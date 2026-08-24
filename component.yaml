@@ -53,10 +53,10 @@
   ],
   "compatibility": {
     "harness_api": "not-yet-declared",
-    "python": ">=3.11",
+    "python": ">=3.10",
     "platforms": {
       "supported": ["linux", "windows"],
-      "tested": ["linux"]
+      "tested": ["linux", "windows"]
     }
   },
   "integration_status": "contract_only",
@@ -64,7 +64,10 @@
     "tests/test_verifier.py",
     "tests/test_risk_model_v02.py",
     "tests/test_portfolio_adapter.py",
-    "contracts/portfolio-observation.v1.manifest.json"
+    "contracts/portfolio-observation.v1.manifest.json",
+    ".github/workflows/tests.yml",
+    "tools/package_smoke.py",
+    "tools/secret_hygiene.py"
   ],
   "claims": [
     "deterministic structural transfer checks",

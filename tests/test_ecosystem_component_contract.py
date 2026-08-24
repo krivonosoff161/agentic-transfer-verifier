@@ -62,10 +62,10 @@ def test_component_manifest_matches_central_v1_shape_and_local_boundary() -> Non
     }
     assert manifest["compatibility"] == {
         "harness_api": "not-yet-declared",
-        "python": ">=3.11",
+        "python": ">=3.10",
         "platforms": {
             "supported": ["linux", "windows"],
-            "tested": ["linux"],
+            "tested": ["linux", "windows"],
         },
     }
     assert manifest["owns"]["modules"] == ["M04-transfer-verifier"]

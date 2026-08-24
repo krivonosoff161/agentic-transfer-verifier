@@ -1,0 +1,7 @@
+include AGENTS.md
+include component.yaml
+include .github/workflows/tests.yml
+recursive-include contracts *.json
+recursive-include docs *.json *.md *.yaml
+recursive-include tests *.py
+recursive-include tools *.py
