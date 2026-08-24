@@ -7,6 +7,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tarfile
 import types
 import zipfile
 from datetime import datetime, timezone
@@ -47,6 +48,7 @@ def _git(root: Path, *args: str) -> str:
 def _build_and_install(tmp_path: Path) -> tuple[Path, Path]:
     dist = tmp_path / "dist"
     core_dist = tmp_path / "core-dist"
+    core_source = _git_source_snapshot(tmp_path)
     subprocess.run(
         [
             sys.executable,
@@ -56,7 +58,7 @@ def _build_and_install(tmp_path: Path) -> tuple[Path, Path]:
             "--no-isolation",
             "--outdir",
             str(core_dist),
-            str(ROOT),
+            str(core_source),
         ],
         check=True,
         cwd=ROOT,
@@ -79,7 +81,7 @@ def _build_and_install(tmp_path: Path) -> tuple[Path, Path]:
     assert len(wheels) == len(sdists) == 1
     core_wheels = tuple(core_dist.glob("*.whl"))
     assert len(core_wheels) == 1
-    target = tmp_path / "installed"
+    pip_target = tmp_path / "pip-installed"
     subprocess.run(
         [
             sys.executable,
@@ -91,14 +93,68 @@ def _build_and_install(tmp_path: Path) -> tuple[Path, Path]:
             "--no-deps",
             "--no-compile",
             "--target",
-            str(target),
+            str(pip_target),
             str(wheels[0]),
             str(core_wheels[0]),
         ],
         check=True,
         cwd=tmp_path,
     )
+    target = tmp_path / "installed"
+    _stable_install_snapshot(pip_target, target)
     return wheels[0], target
+
+
+def _git_source_snapshot(tmp_path: Path) -> Path:
+    archive_path = tmp_path / "core-source.tar"
+    subprocess.run(
+        ["git", "archive", "--format=tar", f"--output={archive_path}", "HEAD"],
+        check=True,
+        cwd=ROOT,
+    )
+    destination = tmp_path / "core-source"
+    destination.mkdir()
+    with tarfile.open(archive_path, mode="r:") as archive:
+        for member in archive.getmembers():
+            relative = Path(member.name)
+            if relative.is_absolute() or ".." in relative.parts:
+                raise AssertionError("git archive member is not a safe relative path")
+            output = destination / relative
+            if member.isdir():
+                output.mkdir(parents=True, exist_ok=True)
+                continue
+            if not member.isfile():
+                raise AssertionError("git archive contains a non-file member")
+            output.parent.mkdir(parents=True, exist_ok=True)
+            source = archive.extractfile(member)
+            assert source is not None
+            with source, output.open("wb") as stream:
+                shutil.copyfileobj(source, stream)
+    for core_source in (destination / "src" / "agentic_transfer_verifier").glob("*.py"):
+        payload = core_source.read_bytes().replace(b"\r\n", b"\n")
+        if b"\r" in payload:
+            raise AssertionError("core source snapshot contains a bare CR")
+        core_source.write_bytes(payload)
+    return destination
+
+
+def _stable_install_snapshot(source: Path, destination: Path) -> None:
+    source_files: dict[str, str] = {}
+    for candidate in source.rglob("*"):
+        if candidate.is_symlink():
+            raise AssertionError("pip installation contains a link")
+        if candidate.is_file():
+            relative = candidate.relative_to(source).as_posix()
+            source_files[relative] = hashlib.sha256(candidate.read_bytes()).hexdigest()
+    shutil.copytree(source, destination, copy_function=shutil.copyfile)
+    copied_files = {
+        candidate.relative_to(destination).as_posix(): hashlib.sha256(
+            candidate.read_bytes()
+        ).hexdigest()
+        for candidate in destination.rglob("*")
+        if candidate.is_file() and not candidate.is_symlink()
+    }
+    assert copied_files == source_files
 
 
 def _event(portfolio_contract: Any, *, activity: str, telemetry: str, seed: str) -> Any:
@@ -269,6 +325,10 @@ def test_generated_contracts_and_extension_source_are_closed() -> None:
     assert manifest["future_harness_package_boundary"] == ">=1.3,<2"
     assert manifest["operational_authority"] == "none"
     assert manifest["source_closure_byte_semantics"] == "utf8-canonical-lf"
+    configuration = json.loads((EXTENSION_ROOT / "configuration.json").read_text("utf-8"))
+    for binding in configuration["core_distribution"]["runtime_files"]:
+        git_blob = subprocess.check_output(["git", "show", f"HEAD:src/{binding['path']}"], cwd=ROOT)
+        assert hashlib.sha256(git_blob).hexdigest() == binding["sha256"]
     closure = {item["path"] for item in manifest["source_closure"]}
     assert {
         ".github/workflows/tests.yml",

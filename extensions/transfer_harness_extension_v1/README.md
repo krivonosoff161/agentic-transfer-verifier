@@ -13,8 +13,9 @@ is `agentic-security-harness>=1.3,<2`; the executable SDK contract remains Harne
 `1`. This compatibility declaration is not automatic installation, sandboxing, a
 signature, or runtime attestation.
 
-The operator flow is: inspect the installed wheel without importing it, approve the
-exact inspection, explicitly load the one approved entry point, call `build_extension`
+The operator flow is: install the wheel without bytecode, copy its regular files into a
+content-identical quiescent inspection snapshot, inspect without importing it, approve
+the exact inspection, explicitly load the one approved entry point, call `build_extension`
 with the retained canonical manifest and configuration bytes, and bind the constructed
 object to the approval receipt. See `docs/transfer-harness-extension.md` in the parent
 repository.

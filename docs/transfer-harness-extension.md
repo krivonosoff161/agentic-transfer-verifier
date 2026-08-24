@@ -32,9 +32,11 @@ operational authority is always `none`.
 
 ## Explicit operator flow
 
-1. Build the nested wheel and install it into a dedicated local root with bytecode
-   compilation disabled. Distribution Discovery V1 rejects generated `__pycache__`
-   additions because they are outside the signed `RECORD` closure.
+1. Build the nested wheel and install it into a dedicated local staging root with
+   bytecode compilation disabled. Copy the resulting regular files byte-for-byte into
+   a quiescent operator-owned inspection snapshot before inspection. Distribution
+   Discovery V1 rejects generated `__pycache__` additions because they are outside the
+   signed `RECORD` closure.
 2. Inspect the exact distribution name, extension id, search root, and canonical
    `configuration.json` bytes. Inspection imports no extension code.
 3. Approve the exact inspection id. Approval immediately repeats the metadata and file
@@ -66,7 +68,8 @@ operator-controlled local environment.
 
 - generator drift check for exact implementation, configuration, Harness source, and
   manifest digests;
-- real sdist and wheel build with isolated `--no-index --no-deps --no-compile` install;
+- real sdist and wheel build with isolated `--no-index --no-deps --no-compile` install
+  followed by a content-identical quiescent inspection snapshot;
 - Harness inspect, approve, explicit factory construction, lifecycle bind, and SDK run;
 - Linux and Windows testing on Python 3.11, 3.12, and 3.13;
 - Ruff, mypy, Bandit, public-tree secret hygiene, package tests, and RECORD assertions.
