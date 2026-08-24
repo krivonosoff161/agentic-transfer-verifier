@@ -52,7 +52,7 @@ def test_component_manifest_matches_central_v1_shape_and_local_boundary() -> Non
     assert manifest["component_id"] == "agentic-transfer-verifier"
     assert manifest["visibility"] == "public"
     assert manifest["kind"] == "check_extension"
-    assert manifest["integration_status"] == "contract_only"
+    assert manifest["integration_status"] == "extension_candidate"
     assert manifest["authority"] == "none"
     assert manifest["package"] == {
         "name": "agentic-transfer-verifier",
@@ -61,7 +61,7 @@ def test_component_manifest_matches_central_v1_shape_and_local_boundary() -> Non
         "entry_points": [],
     }
     assert manifest["compatibility"] == {
-        "harness_api": "not-yet-declared",
+        "harness_api": "1 (candidate; future package boundary >=1.3,<2)",
         "python": ">=3.10",
         "platforms": {
             "supported": ["linux", "windows"],
@@ -69,7 +69,9 @@ def test_component_manifest_matches_central_v1_shape_and_local_boundary() -> Non
         },
     }
     assert manifest["owns"]["modules"] == ["M04-transfer-verifier"]
-    assert "installable Agentic Security Harness extension today" in manifest["non_claims"]
+    assert "released or automatically activated Agentic Security Harness extension" in manifest[
+        "non_claims"
+    ]
 
 
 def test_component_manifest_document_refs_exist_and_classify_legacy_projection() -> None:
@@ -95,14 +97,14 @@ def test_component_manifest_document_refs_exist_and_classify_legacy_projection()
         assert not candidate.is_symlink()
 
 
-def test_component_docs_link_the_current_ecosystem_without_promoting_integration() -> None:
+def test_component_docs_link_the_current_ecosystem_without_promoting_release() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     roadmap = (ROOT / "docs" / "component-roadmap.md").read_text(encoding="utf-8")
     legacy = (ROOT / "docs" / "security-portfolio-roadmap.md").read_text(encoding="utf-8")
 
     for text in (readme, roadmap, legacy):
         assert "agentic-security-harness/blob/main/docs/ecosystem-roadmap.md" in text
-    assert "contract-only" in readme
-    assert "not yet an installable `ash` extension" in readme
-    assert "`contract_only`" in roadmap
+    assert "extension candidate" in readme
+    assert "It is not\nreleased" in readme
+    assert "`extension_candidate`" in roadmap
     assert "Historical R4 projection" in legacy

@@ -12,22 +12,24 @@ checks for transfer envelopes, provenance, trust transitions, freshness, approva
 capability, authority non-expansion, adversarial transfer chains, and private-asset sink
 policy. Its portfolio-observation adapter is authority-free.
 
-Ecosystem integration is currently **`contract_only`**. The package does not yet implement
-the future Harness Extension SDK, does not register runtime entry points with `ash`, and
-must not be described as an installable Harness extension today.
+Ecosystem integration is currently **`extension_candidate`**. A separate nested wheel
+implements the exact Harness Extension SDK and Distribution Discovery V1 contracts and
+is tested against the pinned Lifecycle head on Linux and Windows. The standalone package
+still registers no Harness entry point, and the extension candidate is not released,
+automatically loaded, signed, sandboxed, or enabled by installing the core package.
 
 ## Ordered delivery gates
 
 1. **Documentation convergence — active.** Keep this roadmap, `component.yaml`, README,
    and offline manifest tests synchronized with the central ecosystem contract.
-2. **Extension contract — planned.** After Harness publishes a stable Extension SDK,
-   define versioned check descriptors for the existing deterministic checks without
-   changing their security meaning.
-3. **Installable extension — planned.** Register explicit package entry points, return the
-   common evidence/result contract, and prove source-package installation on Linux and
-   Windows.
-4. **Suite verification — planned.** Add cross-repository compatibility tests against a
-   pinned Harness release and publish a compatibility row backed by those tests.
+2. **Extension contract — candidate complete.** The nested distribution owns one exact
+   entry point, canonical config/manifest bytes, digest-only findings, and no authority.
+3. **Installable extension — candidate complete.** Synthetic wheels are inspected,
+   approved, explicitly constructed, bound, and exercised on Linux and Windows. This is
+   build evidence, not a public release.
+4. **Suite verification — candidate complete.** Cross-repository tests pin the exact
+   Harness Lifecycle source head and runtime contract digests. Promotion to a released
+   compatibility row remains a separate release gate.
 5. **Research deepening — separately reviewed.** Continue transfer-integrity research only
    through synthetic, invariant-led cases with explicit evidence and non-claims.
 
@@ -38,8 +40,9 @@ No later gate is satisfied by documentation alone.
 - Standalone package metadata supports Python 3.10 and later.
 - The initial ecosystem compatibility contour is Python 3.11 or later on Linux and
   Windows.
-- Harness API compatibility is `not-yet-declared` until an executable Extension SDK
-  contract and cross-repository test exist.
+- The nested candidate implements Harness API `1` and records a future package boundary
+  `agentic-security-harness>=1.3,<2`. Current Distribution Discovery V1 forbids
+  `Requires-Dist`, so this is a compatibility declaration, not automatic installation.
 
 ## Document authority
 
@@ -54,7 +57,9 @@ No later gate is satisfied by documentation alone.
 ## Claims and non-claims
 
 The component may claim deterministic structural verification over its declared local
-models and synthetic fixtures. It does not authenticate producer identity, establish
+models and synthetic fixtures. The extension PASS applies only to a digest-only
+projection of a canonical observation; it does not re-open or verify the original raw
+transfer payload. The component does not authenticate producer identity, establish
 semantic truth, estimate incident probability, provide a sandbox, enforce production
 policy, or grant operational authority.
 

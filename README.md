@@ -6,8 +6,10 @@ Its source-owned identity and ordered integration gates are recorded in
 [`component.yaml`](component.yaml) and the
 [component roadmap](docs/component-roadmap.md).
 
-Current ecosystem status is **contract-only**: the package is independently usable, but
-it is not yet an installable `ash` extension. The former
+Current ecosystem status is **extension candidate**: the standalone package remains
+independently usable, and the repository now contains a separately built, optional
+Harness Extension V1 distribution with exact offline integration tests. It is not
+released, automatically loaded, sandboxed, signed, or an enforcement component. The former
 [Security Portfolio module contract](docs/security-portfolio-roadmap.md) is preserved as
 historical, digest-bound R4 evidence.
 
@@ -88,6 +90,12 @@ Python API and no command-line entry point. Its CI builds both an sdist and whee
 Linux and Windows for Python 3.10-3.12, then installs the wheel in a fresh virtual
 environment and exercises the public verification contract. See
 [Package and CI contract](docs/package-ci.md).
+
+The optional nested extension distribution is documented separately in
+[Transfer Verifier Harness Extension V1](docs/transfer-harness-extension.md). It uses
+explicit operator inspection and approval, consumes only canonical observations and
+digest references, and emits advisory findings. Installing the standalone package does
+not install or activate the extension.
 
 ## Minimal Example
 
@@ -223,6 +231,7 @@ No network calls. No provider credentials. No real target integrations.
 - [Adversarial transfer detection model](docs/adversarial-transfer-detection-model.md)
 - [Private asset leakage model](docs/private-asset-leakage-model.md)
 - [Package and CI contract](docs/package-ci.md)
+- [Transfer Verifier Harness Extension V1](docs/transfer-harness-extension.md)
 - [Superseded version roadmap](docs/roadmap.md)
 
 ## License
