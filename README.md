@@ -79,9 +79,15 @@ whole portfolio.
 ```bash
 git clone https://github.com/krivonosoff161/agentic-transfer-verifier
 cd agentic-transfer-verifier
-pip install -e .
+pip install .
 python -m pytest -q
 ```
+
+For contributor work, use `pip install -e .[dev]`. The package currently exposes a
+Python API and no command-line entry point. Its CI builds both an sdist and wheel on
+Linux and Windows for Python 3.10-3.12, then installs the wheel in a fresh virtual
+environment and exercises the public verification contract. See
+[Package and CI contract](docs/package-ci.md).
 
 ## Minimal Example
 
@@ -216,6 +222,7 @@ No network calls. No provider credentials. No real target integrations.
 - [Formal transfer model v0.2](docs/formal-transfer-model-v02.md)
 - [Adversarial transfer detection model](docs/adversarial-transfer-detection-model.md)
 - [Private asset leakage model](docs/private-asset-leakage-model.md)
+- [Package and CI contract](docs/package-ci.md)
 - [Superseded version roadmap](docs/roadmap.md)
 
 ## License

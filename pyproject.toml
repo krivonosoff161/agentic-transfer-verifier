@@ -23,7 +23,12 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "ruff>=0.8"]
+dev = [
+  "bandit>=1.7.10",
+  "build>=1.2.2",
+  "pytest>=8",
+  "ruff>=0.8",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
