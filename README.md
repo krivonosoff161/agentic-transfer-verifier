@@ -1,6 +1,15 @@
 # Agentic Transfer Verifier
 
-Portfolio ownership and evidence ceilings: [Security Portfolio module contract](docs/security-portfolio-roadmap.md).
+This package is the transfer-verification component of the
+[Agentic Security Harness ecosystem](https://github.com/krivonosoff161/agentic-security-harness/blob/main/docs/ecosystem-roadmap.md).
+Its source-owned identity and ordered integration gates are recorded in
+[`component.yaml`](component.yaml) and the
+[component roadmap](docs/component-roadmap.md).
+
+Current ecosystem status is **contract-only**: the package is independently usable, but
+it is not yet an installable `ash` extension. The former
+[Security Portfolio module contract](docs/security-portfolio-roadmap.md) is preserved as
+historical, digest-bound R4 evidence.
 
 Research toolkit for validating data, context, provenance, trust, and authority
 handoffs between heterogeneous AI agent runtimes.
@@ -199,6 +208,7 @@ No network calls. No provider credentials. No real target integrations.
 
 ## Docs
 
+- [Component roadmap](docs/component-roadmap.md)
 - [Problem statement](docs/problem-statement.md)
 - [Boundary model](docs/boundary-model.md)
 - [Data envelope](docs/data-envelope.md)
@@ -206,7 +216,7 @@ No network calls. No provider credentials. No real target integrations.
 - [Formal transfer model v0.2](docs/formal-transfer-model-v02.md)
 - [Adversarial transfer detection model](docs/adversarial-transfer-detection-model.md)
 - [Private asset leakage model](docs/private-asset-leakage-model.md)
-- [Roadmap](docs/roadmap.md)
+- [Superseded version roadmap](docs/roadmap.md)
 
 ## License
 

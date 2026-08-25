@@ -1,5 +1,10 @@
 # Roadmap
 
+> **Superseded active roadmap.** This version-oriented plan is retained as project history.
+> Current component status and ordered ecosystem integration gates are in
+> [component-roadmap.md](component-roadmap.md); the public cross-repository sequence is in
+> the [Harness ecosystem roadmap](https://github.com/krivonosoff161/agentic-security-harness/blob/main/docs/ecosystem-roadmap.md).
+
 ## v0.1
 
 - Dependency-free envelope model.
