@@ -83,7 +83,8 @@
     "deterministic structural transfer checks",
     "synthetic transfer and sink scenario corpora",
     "authority-free portfolio observation adapter",
-    "review-only optional Harness extension candidate with exact offline integration"
+    "review-only optional Harness extension candidate with exact offline integration",
+    "source-buildable coordinated base and extension distribution candidates"
   ],
   "non_claims": [
     "authenticated producer identity",

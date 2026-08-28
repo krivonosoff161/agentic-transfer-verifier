@@ -18,8 +18,8 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 EXTENSION_ROOT = ROOT / "extensions" / "transfer_harness_extension_v1"
-HARNESS_COMMIT = "6354635c6411830de95dd3b68c962eb887cb5edb"
-HARNESS_TREE = "e9609592fe4fd3f7ab89c0bdf48ed68fb0178516"
+HARNESS_COMMIT = "c1dd69856212458ae952e43aeb2b0cc9290e8205"
+HARNESS_TREE = "596c189e8b15ceaf7bf28337546655e23d47d3ef"
 DIST_NAME = "agentic-transfer-verifier-harness-extension"
 EXTENSION_ID = "agentic-transfer-verifier.verification"
 
