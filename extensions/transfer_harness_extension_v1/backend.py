@@ -74,18 +74,19 @@ def build_sdist(
     del config_settings
     output = Path(sdist_directory)
     output.mkdir(parents=True, exist_ok=True)
-    source_names = (
-        "README.md",
-        "pyproject.toml",
-        "backend.py",
-        MODULE,
-        CONFIGURATION,
-        MANIFEST,
-    )
+    source_files = {
+        "PKG-INFO": _metadata_bytes(),
+        "README.md": _read_source("README.md"),
+        "pyproject.toml": _read_source("pyproject.toml"),
+        "backend.py": _read_source("backend.py"),
+        MODULE: _read_source(MODULE),
+        CONFIGURATION: _read_source(CONFIGURATION),
+        MANIFEST: _read_source(MANIFEST),
+    }
     payload = io.BytesIO()
     with tarfile.open(fileobj=payload, mode="w") as archive:
-        for name in source_names:
-            content = _read_source(name)
+        for name in sorted(source_files):
+            content = source_files[name]
             info = tarfile.TarInfo(f"{NAME}-{VERSION}/{name}")
             info.size = len(content)
             info.mode = 0o644
