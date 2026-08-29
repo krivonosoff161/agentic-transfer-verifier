@@ -15,13 +15,13 @@ from typing import Any
 
 NAME = "agentic-transfer-verifier-harness-extension"
 NORMALIZED = "agentic_transfer_verifier_harness_extension"
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 MODULE = "agentic_transfer_verifier_extension.py"
 MANIFEST = "ash-extension-manifest.json"
 CONFIGURATION = "configuration.json"
 DIST_INFO = f"{NORMALIZED}-{VERSION}.dist-info"
 WHEEL_NAME = f"{NORMALIZED}-{VERSION}-py3-none-any.whl"
-SDIST_NAME = f"{NAME}-{VERSION}.tar.gz"
+SDIST_NAME = f"{NORMALIZED}-{VERSION}.tar.gz"
 ROOT = Path(__file__).resolve().parent
 MAX_SOURCE_BYTES = 1_048_576
 
@@ -87,7 +87,7 @@ def build_sdist(
     with tarfile.open(fileobj=payload, mode="w") as archive:
         for name in sorted(source_files):
             content = source_files[name]
-            info = tarfile.TarInfo(f"{NAME}-{VERSION}/{name}")
+            info = tarfile.TarInfo(f"{NORMALIZED}-{VERSION}/{name}")
             info.size = len(content)
             info.mode = 0o644
             info.mtime = 0

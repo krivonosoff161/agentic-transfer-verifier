@@ -49,7 +49,7 @@ def generated_files(harness_root: Path) -> dict[Path, bytes]:
     extension = {
         "schema_version": "harness-extension-manifest-v1.0",
         "extension_id": "agentic-transfer-verifier.verification",
-        "extension_version": "1.0.0",
+        "extension_version": "1.0.1",
         "component_id": "agentic-transfer-verifier",
         "implementation_sha256": hashlib.sha256(module).hexdigest(),
         "configuration_sha256": hashlib.sha256(configuration).hexdigest(),
@@ -86,7 +86,7 @@ def generated_files(harness_root: Path) -> dict[Path, bytes]:
         "component_id": "agentic-transfer-verifier",
         "distribution_name": "agentic-transfer-verifier-harness-extension",
         "extension_id": "agentic-transfer-verifier.verification",
-        "extension_version": "1.0.0",
+        "extension_version": "1.0.1",
         "requires_python": ">=3.11,<3.14",
         "future_harness_package_boundary": ">=1.3,<2",
         "harness_api": "1",

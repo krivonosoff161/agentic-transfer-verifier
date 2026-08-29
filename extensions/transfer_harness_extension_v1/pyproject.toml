@@ -5,7 +5,7 @@ backend-path = ["."]
 
 [project]
 name = "agentic-transfer-verifier-harness-extension"
-version = "1.0.0"
+version = "1.0.1"
 description = "Operator-approved digest-only Harness extension for Agentic Transfer Verifier."
 requires-python = ">=3.11,<3.14"
 license = "MIT"

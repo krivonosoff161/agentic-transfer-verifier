@@ -8,7 +8,7 @@
   "summary": "Deterministic structural verification for provenance, trust, freshness, approval, capability, authority, and bounded transfer risk.",
   "package": {
     "name": "agentic-transfer-verifier",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "install": "pip install .",
     "entry_points": []
   },
