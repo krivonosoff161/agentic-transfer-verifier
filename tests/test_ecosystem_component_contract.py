@@ -61,7 +61,7 @@ def test_component_manifest_matches_central_v1_shape_and_local_boundary() -> Non
         "entry_points": [],
     }
     assert manifest["compatibility"] == {
-        "harness_api": "1 (extension package boundary >=1.3,<2)",
+        "harness_api": "1",
         "python": ">=3.10",
         "platforms": {
             "supported": ["linux", "windows"],

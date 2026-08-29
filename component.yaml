@@ -59,7 +59,7 @@
     {"path": "docs/security-portfolio-roadmap-contract.json", "role": "historical"}
   ],
   "compatibility": {
-    "harness_api": "1 (extension package boundary >=1.3,<2)",
+    "harness_api": "1",
     "python": ">=3.10",
     "platforms": {
       "supported": ["linux", "windows"],
