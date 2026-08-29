@@ -9,7 +9,8 @@ Its source-owned identity and ordered integration gates are recorded in
 Current ecosystem status is **extension candidate**: the standalone package remains
 independently usable, and the repository now contains a separately built, optional
 Harness Extension V1 distribution with exact offline integration tests. It is not
-released, automatically loaded, sandboxed, signed, or an enforcement component. The former
+automatically loaded, sandboxed, or an enforcement component. Both distributions are
+published on PyPI, but installation alone neither approves nor binds the extension. The former
 [Security Portfolio module contract](docs/security-portfolio-roadmap.md) is preserved as
 historical, digest-bound R4 evidence.
 
@@ -79,13 +80,10 @@ whole portfolio.
 ## Install
 
 ```bash
-git clone https://github.com/krivonosoff161/agentic-transfer-verifier
-cd agentic-transfer-verifier
-pip install .
-python -m pytest -q
+python -m pip install agentic-transfer-verifier==0.2.1
 ```
 
-For contributor work, use `pip install -e .[dev]`. The package currently exposes a
+For contributor work, clone the repository and use `pip install -e .[dev]`. The package currently exposes a
 Python API and no command-line entry point. Its CI builds both an sdist and wheel on
 Linux and Windows for Python 3.10-3.12, then installs the wheel in a fresh virtual
 environment and exercises the public verification contract. See
@@ -97,13 +95,16 @@ explicit operator inspection and approval, consumes only canonical observations 
 digest references, and emits advisory findings. Installing the standalone package does
 not install or activate the extension.
 
-The coordinated source candidates are `agentic-transfer-verifier==0.2.1` and
+The coordinated public distributions are `agentic-transfer-verifier==0.2.1` and
 `agentic-transfer-verifier-harness-extension==1.0.1`. Build/install commands live in the
-extension document. Harness `main` declares a source-only `transfer` extra for this exact
-pair, but neither companion distribution is published and the published Harness `v1.3.0`
-metadata does not contain that extra. Public
-`pip install agentic-security-harness[transfer]` support therefore remains unavailable;
-exact companion publication and newer Harness package metadata are separate release gates.
+extension document. Published Harness `v1.4.0` resolves this exact pair from PyPI:
+
+```bash
+python -m pip install "agentic-security-harness[transfer]==1.4.0"
+```
+
+This installs the packages only. Harness still requires explicit inspection, approval, and
+binding before the extension can run.
 
 ## Minimal Example
 
