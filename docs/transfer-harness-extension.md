@@ -51,7 +51,7 @@ this repository performs no automatic discovery, import, download, or activation
 
 ## Coordinated source installation
 
-Build and install both source candidates explicitly:
+For source review, build and install both distributions explicitly:
 
 ```text
 python -m build --outdir dist/core .
@@ -59,11 +59,9 @@ python -m build --no-isolation --outdir dist/extension extensions/transfer_harne
 python -m pip install --no-deps dist/core/agentic_transfer_verifier-0.2.1-py3-none-any.whl dist/extension/agentic_transfer_verifier_harness_extension-1.0.1-py3-none-any.whl
 ```
 
-Harness `main` already declares a source-only `transfer` extra selecting these same two
-exact distributions. Neither companion artifact is published and published Harness
-`v1.3.0` metadata does not contain that extra, so the public extra command is unavailable.
-The extension intentionally has no `Requires-Dist`; a later published extra, not ambient
-dependency resolution, must install the compatible pair.
+Published Harness `v1.4.0` declares a `transfer` extra selecting these same two exact
+public distributions. The extension intentionally has no `Requires-Dist`; the Harness
+extra, not ambient extension dependency resolution, installs the compatible pair.
 
 ## Package and supply-chain boundary
 

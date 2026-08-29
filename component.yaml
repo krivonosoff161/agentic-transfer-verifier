@@ -9,7 +9,7 @@
   "package": {
     "name": "agentic-transfer-verifier",
     "version": "0.2.1",
-    "install": "pip install .",
+    "install": "pip install agentic-transfer-verifier==0.2.1",
     "entry_points": []
   },
   "owns": {
@@ -59,7 +59,7 @@
     {"path": "docs/security-portfolio-roadmap-contract.json", "role": "historical"}
   ],
   "compatibility": {
-    "harness_api": "1 (candidate; future package boundary >=1.3,<2)",
+    "harness_api": "1 (extension package boundary >=1.3,<2)",
     "python": ">=3.10",
     "platforms": {
       "supported": ["linux", "windows"],
@@ -84,14 +84,14 @@
     "synthetic transfer and sink scenario corpora",
     "authority-free portfolio observation adapter",
     "review-only optional Harness extension candidate with exact offline integration",
-    "source-buildable coordinated base and extension distribution candidates"
+    "published coordinated base and extension distributions"
   ],
   "non_claims": [
     "authenticated producer identity",
     "cryptographic transfer verification",
     "semantic truth or incident probability",
     "production policy enforcement",
-    "released or automatically activated Agentic Security Harness extension",
+    "automatically approved, bound, or activated Agentic Security Harness extension",
     "raw transfer payload verification through the digest-only extension"
   ],
   "authority": "none"

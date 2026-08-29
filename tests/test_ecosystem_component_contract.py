@@ -57,11 +57,11 @@ def test_component_manifest_matches_central_v1_shape_and_local_boundary() -> Non
     assert manifest["package"] == {
         "name": "agentic-transfer-verifier",
         "version": "0.2.1",
-        "install": "pip install .",
+        "install": "pip install agentic-transfer-verifier==0.2.1",
         "entry_points": [],
     }
     assert manifest["compatibility"] == {
-        "harness_api": "1 (candidate; future package boundary >=1.3,<2)",
+        "harness_api": "1 (extension package boundary >=1.3,<2)",
         "python": ">=3.10",
         "platforms": {
             "supported": ["linux", "windows"],
@@ -69,9 +69,10 @@ def test_component_manifest_matches_central_v1_shape_and_local_boundary() -> Non
         },
     }
     assert manifest["owns"]["modules"] == ["M04-transfer-verifier"]
-    assert "released or automatically activated Agentic Security Harness extension" in manifest[
-        "non_claims"
-    ]
+    assert (
+        "automatically approved, bound, or activated Agentic Security Harness extension"
+        in manifest["non_claims"]
+    )
 
 
 def test_component_manifest_document_refs_exist_and_classify_legacy_projection() -> None:
@@ -97,7 +98,7 @@ def test_component_manifest_document_refs_exist_and_classify_legacy_projection()
         assert not candidate.is_symlink()
 
 
-def test_component_docs_link_the_current_ecosystem_without_promoting_release() -> None:
+def test_component_docs_link_the_current_ecosystem_without_promoting_authority() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     roadmap = (ROOT / "docs" / "component-roadmap.md").read_text(encoding="utf-8")
     legacy = (ROOT / "docs" / "security-portfolio-roadmap.md").read_text(encoding="utf-8")
@@ -105,12 +106,12 @@ def test_component_docs_link_the_current_ecosystem_without_promoting_release() -
     for text in (readme, roadmap, legacy):
         assert "agentic-security-harness/blob/main/docs/ecosystem-roadmap.md" in text
     assert "extension candidate" in readme
-    assert "It is not\nreleased" in readme
+    assert "installation alone neither approves nor binds" in readme
     assert "`extension_candidate`" in roadmap
     assert "Historical R4 projection" in legacy
 
 
-def test_install_docs_distinguish_source_extra_from_public_packages() -> None:
+def test_install_docs_bind_public_packages_and_passive_extra() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     extension = (ROOT / "docs" / "transfer-harness-extension.md").read_text(
         encoding="utf-8"
@@ -118,8 +119,8 @@ def test_install_docs_distinguish_source_extra_from_public_packages() -> None:
 
     for text in (readme, extension):
         normalized = " ".join(text.split())
-        assert "Harness `main`" in normalized
-        assert "published Harness `v1.3.0` metadata does not contain" in normalized
-    assert "Public\n`pip install agentic-security-harness[transfer]` support" in readme
-    assert "public extra command is unavailable" in extension
+        assert "Harness `v1.4.0`" in normalized
+        assert "public distributions" in normalized
+    assert "agentic-security-harness[transfer]==1.4.0" in readme
+    assert "agentic-transfer-verifier==0.2.1" in readme
     assert "automatically loaded" in readme

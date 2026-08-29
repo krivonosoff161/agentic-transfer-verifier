@@ -15,14 +15,13 @@ policy. Its portfolio-observation adapter is authority-free.
 Ecosystem integration is currently **`extension_candidate`**. A separate nested wheel
 implements the exact Harness Extension SDK and Distribution Discovery V1 contracts and
 is tested against the pinned Lifecycle head on Linux and Windows. The standalone package
-still registers no Harness entry point, and the extension candidate is not released,
-automatically loaded, signed, sandboxed, or enabled by installing the core package.
+still registers no Harness entry point. The extension is published, but is not
+automatically loaded, approved, signed, sandboxed, or enabled by installing the core package.
 
-The coordinated source candidates are `agentic-transfer-verifier==0.2.1` and
-`agentic-transfer-verifier-harness-extension==1.0.1`. CI builds both exact artifact sets;
-Harness `main` declares the source-only `transfer` optional-dependency row. Neither
-companion artifact is on PyPI and published Harness `v1.3.0` metadata does not contain
-that row, so public installation remains a separate release gate.
+The coordinated public distributions are `agentic-transfer-verifier==0.2.1` and
+`agentic-transfer-verifier-harness-extension==1.0.1`. Published Harness `v1.4.0` exposes
+them through the `transfer` extra. Clean PyPI installation is release evidence only;
+extension inspection, approval, and lifecycle binding remain explicit runtime gates.
 
 ## Ordered delivery gates
 
@@ -30,13 +29,11 @@ that row, so public installation remains a separate release gate.
    and offline manifest tests synchronized with the central ecosystem contract.
 2. **Extension contract — candidate complete.** The nested distribution owns one exact
    entry point, canonical config/manifest bytes, digest-only findings, and no authority.
-3. **Installable extension — candidate complete.** Synthetic wheels are inspected,
-   approved, explicitly constructed, bound, and exercised on Linux and Windows. This is
-   build evidence, not a public release.
-4. **Suite verification — candidate complete.** Cross-repository tests pin the exact
+3. **Installable extension — released.** Exact wheels are published and clean-installed
+   on Linux and Windows; installation grants no approval or runtime authority.
+4. **Suite verification — released.** Cross-repository tests pin the exact
    Harness Lifecycle source head and runtime contract digests. The source compatibility
-   row is merged; companion publication and newer published Harness metadata remain
-   separate release gates.
+   row and published Harness `v1.4.0` metadata resolve the exact public distributions.
 5. **Research deepening — separately reviewed.** Continue transfer-integrity research only
    through synthetic, invariant-led cases with explicit evidence and non-claims.
 
