@@ -18,8 +18,8 @@ is tested against the pinned Lifecycle head on Linux and Windows. The standalone
 still registers no Harness entry point, and the extension candidate is not released,
 automatically loaded, signed, sandboxed, or enabled by installing the core package.
 
-The coordinated source candidates are `agentic-transfer-verifier==0.2.0` and
-`agentic-transfer-verifier-harness-extension==1.0.0`. CI builds both exact artifact sets;
+The coordinated source candidates are `agentic-transfer-verifier==0.2.1` and
+`agentic-transfer-verifier-harness-extension==1.0.1`. CI builds both exact artifact sets;
 Harness `main` declares the source-only `transfer` optional-dependency row. Neither
 companion artifact is on PyPI and published Harness `v1.3.0` metadata does not contain
 that row, so public installation remains a separate release gate.

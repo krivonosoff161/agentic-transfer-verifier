@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agentic-transfer-verifier"
-version = "0.2.0"
+version = "0.2.1"
 description = "Local verifier for agentic data handoffs: envelope, provenance, trust, authority, identity, capability, and audit checks."
 readme = "README.md"
 requires-python = ">=3.10"
