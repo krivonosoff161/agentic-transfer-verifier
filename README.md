@@ -97,6 +97,12 @@ explicit operator inspection and approval, consumes only canonical observations 
 digest references, and emits advisory findings. Installing the standalone package does
 not install or activate the extension.
 
+The coordinated source candidates are `agentic-transfer-verifier==0.2.0` and
+`agentic-transfer-verifier-harness-extension==1.0.0`. Build/install commands live in the
+extension document. Neither distribution is currently claimed as published; future
+`pip install agentic-security-harness[transfer]` support depends on a separate exact-artifact
+publication gate and a Harness compatibility update.
+
 ## Minimal Example
 
 ```python

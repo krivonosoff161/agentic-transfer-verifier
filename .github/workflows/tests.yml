@@ -86,7 +86,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: krivonosoff161/agentic-security-harness
-          ref: 6354635c6411830de95dd3b68c962eb887cb5edb
+          ref: c1dd69856212458ae952e43aeb2b0cc9290e8205
           path: components/harness-lifecycle-v1
           persist-credentials: false
       - name: Install exact SDK
@@ -102,3 +102,5 @@ jobs:
         env:
           ASH_HARNESS_SDK_ROOT: ${{ github.workspace }}/components/harness-lifecycle-v1
         run: python -m pytest -q -p no:cacheprovider tests/test_transfer_harness_extension_v1.py
+      - name: Build exact extension release candidates
+        run: python -m build --no-isolation --outdir dist/extension extensions/transfer_harness_extension_v1

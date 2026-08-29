@@ -49,6 +49,20 @@ operational authority is always `none`.
 The synthetic cross-repository test performs this entire sequence. Production code in
 this repository performs no automatic discovery, import, download, or activation.
 
+## Coordinated source installation
+
+Build and install both source candidates explicitly:
+
+```text
+python -m build --outdir dist/core .
+python -m build --no-isolation --outdir dist/extension extensions/transfer_harness_extension_v1
+python -m pip install --no-deps dist/core/agentic_transfer_verifier-0.2.0-py3-none-any.whl dist/extension/agentic_transfer_verifier_harness_extension-1.0.0-py3-none-any.whl
+```
+
+After separately approved publication, those same two exact distributions may be selected by
+a Harness `transfer` extra. The extension intentionally has no `Requires-Dist`; the extra, not
+ambient dependency resolution, must install the compatible pair.
+
 ## Package and supply-chain boundary
 
 The wheel uses exact `Requires-Python: >=3.11,<3.14`, `py3-none-any`, one top-level
