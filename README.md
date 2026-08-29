@@ -99,9 +99,11 @@ not install or activate the extension.
 
 The coordinated source candidates are `agentic-transfer-verifier==0.2.0` and
 `agentic-transfer-verifier-harness-extension==1.0.0`. Build/install commands live in the
-extension document. Neither distribution is currently claimed as published; future
-`pip install agentic-security-harness[transfer]` support depends on a separate exact-artifact
-publication gate and a Harness compatibility update.
+extension document. Harness `main` declares a source-only `transfer` extra for this exact
+pair, but neither companion distribution is published and the published Harness `v1.3.0`
+metadata does not contain that extra. Public
+`pip install agentic-security-harness[transfer]` support therefore remains unavailable;
+exact companion publication and newer Harness package metadata are separate release gates.
 
 ## Minimal Example
 

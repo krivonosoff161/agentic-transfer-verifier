@@ -59,16 +59,18 @@ python -m build --no-isolation --outdir dist/extension extensions/transfer_harne
 python -m pip install --no-deps dist/core/agentic_transfer_verifier-0.2.0-py3-none-any.whl dist/extension/agentic_transfer_verifier_harness_extension-1.0.0-py3-none-any.whl
 ```
 
-After separately approved publication, those same two exact distributions may be selected by
-a Harness `transfer` extra. The extension intentionally has no `Requires-Dist`; the extra, not
-ambient dependency resolution, must install the compatible pair.
+Harness `main` already declares a source-only `transfer` extra selecting these same two
+exact distributions. Neither companion artifact is published and published Harness
+`v1.3.0` metadata does not contain that extra, so the public extra command is unavailable.
+The extension intentionally has no `Requires-Dist`; a later published extra, not ambient
+dependency resolution, must install the compatible pair.
 
 ## Package and supply-chain boundary
 
 The wheel uses exact `Requires-Python: >=3.11,<3.14`, `py3-none-any`, one top-level
 implementation module, one entry-point group, a canonical manifest inside `.dist-info`,
 and a regenerated exact `RECORD`. Current Harness Distribution Discovery V1 requires no
-`Requires-Dist`; therefore the future `agentic-security-harness>=1.3,<2` boundary is
+`Requires-Dist`; therefore the source `agentic-security-harness>=1.3,<2` boundary is
 declared in source metadata and the generated contract, not installed automatically.
 
 The canonical configuration binds the complete Python runtime file inventory and SHA-256
@@ -88,5 +90,5 @@ operator-controlled local environment.
 - Linux and Windows testing on Python 3.11, 3.12, and 3.13;
 - Ruff, mypy, Bandit, public-tree secret hygiene, package tests, and RECORD assertions.
 
-No release, merge, provider call, live transfer input, deployment, or enforcement is part
-of this candidate.
+No companion release, provider call, live transfer input, deployment, or enforcement is
+granted by this source candidate or by the merged Harness optional-dependency row.

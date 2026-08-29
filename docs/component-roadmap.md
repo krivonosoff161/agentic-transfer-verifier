@@ -20,7 +20,9 @@ automatically loaded, signed, sandboxed, or enabled by installing the core packa
 
 The coordinated source candidates are `agentic-transfer-verifier==0.2.0` and
 `agentic-transfer-verifier-harness-extension==1.0.0`. CI builds both exact artifact sets;
-public index publication and the Harness optional-dependency row remain separate release gates.
+Harness `main` declares the source-only `transfer` optional-dependency row. Neither
+companion artifact is on PyPI and published Harness `v1.3.0` metadata does not contain
+that row, so public installation remains a separate release gate.
 
 ## Ordered delivery gates
 
@@ -32,8 +34,9 @@ public index publication and the Harness optional-dependency row remain separate
    approved, explicitly constructed, bound, and exercised on Linux and Windows. This is
    build evidence, not a public release.
 4. **Suite verification — candidate complete.** Cross-repository tests pin the exact
-   Harness Lifecycle source head and runtime contract digests. Promotion to a released
-   compatibility row remains a separate release gate.
+   Harness Lifecycle source head and runtime contract digests. The source compatibility
+   row is merged; companion publication and newer published Harness metadata remain
+   separate release gates.
 5. **Research deepening — separately reviewed.** Continue transfer-integrity research only
    through synthetic, invariant-led cases with explicit evidence and non-claims.
 
@@ -44,7 +47,7 @@ No later gate is satisfied by documentation alone.
 - Standalone package metadata supports Python 3.10 and later.
 - The initial ecosystem compatibility contour is Python 3.11 or later on Linux and
   Windows.
-- The nested candidate implements Harness API `1` and records a future package boundary
+- The nested candidate implements Harness API `1` and records a source package boundary
   `agentic-security-harness>=1.3,<2`. Current Distribution Discovery V1 forbids
   `Requires-Dist`, so this is a compatibility declaration, not automatic installation.
 
