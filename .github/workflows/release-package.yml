@@ -50,7 +50,7 @@ jobs:
       - name: Verify tag and package identities
         env:
           RELEASE_TAG: ${{ github.ref_name }}
-          EXPECTED_PACKAGES: '{"agentic-transfer-verifier":"0.2.0","agentic-transfer-verifier-harness-extension":"1.0.0"}'
+          EXPECTED_PACKAGES: '{"agentic-transfer-verifier":"0.2.1","agentic-transfer-verifier-harness-extension":"1.0.1"}'
           PROJECT_FILES: '["pyproject.toml","extensions/transfer_harness_extension_v1/pyproject.toml"]'
         run: |
           python - <<'PY'
@@ -108,10 +108,10 @@ jobs:
           if observed != expected:
               raise SystemExit(f"reproducibility mismatch: expected={expected}, observed={observed}")
           PY
-          python tools/verify_release_index.py --dist-dir dist --expected agentic-transfer-verifier==0.2.0 --expected agentic-transfer-verifier-harness-extension==1.0.0
+          python tools/verify_release_index.py --dist-dir dist --expected agentic-transfer-verifier==0.2.1 --expected agentic-transfer-verifier-harness-extension==1.0.1
       - name: Isolated installed-wheel metadata smoke
         env:
-          EXPECTED_PACKAGES: '{"agentic-transfer-verifier":"0.2.0","agentic-transfer-verifier-harness-extension":"1.0.0"}'
+          EXPECTED_PACKAGES: '{"agentic-transfer-verifier":"0.2.1","agentic-transfer-verifier-harness-extension":"1.0.1"}'
         run: |
           set -euo pipefail
           python -m venv release-smoke
@@ -246,7 +246,7 @@ jobs:
           cd dist
           sha256sum --check SHA256SUMS
           cd ..
-          python tools/verify_release_index.py --dist-dir dist --expected agentic-transfer-verifier==0.2.0 --expected agentic-transfer-verifier-harness-extension==1.0.0
+          python tools/verify_release_index.py --dist-dir dist --expected agentic-transfer-verifier==0.2.1 --expected agentic-transfer-verifier-harness-extension==1.0.1
           for artifact in dist/*.tar.gz dist/*.whl dist/SHA256SUMS; do
             gh attestation verify "$artifact" \
               --repo "$GITHUB_REPOSITORY" \
@@ -259,12 +259,12 @@ jobs:
           done
           mkdir publish-dist
           cp \
-            dist/agentic_transfer_verifier-0.2.0-py3-none-any.whl \
-            dist/agentic_transfer_verifier-0.2.0.tar.gz \
+            dist/agentic_transfer_verifier-0.2.1-py3-none-any.whl \
+            dist/agentic_transfer_verifier-0.2.1.tar.gz \
             publish-dist/
-          python tools/verify_release_index.py --dist-dir publish-dist --expected agentic-transfer-verifier==0.2.0
+          python tools/verify_release_index.py --dist-dir publish-dist --expected agentic-transfer-verifier==0.2.1
           if test "${{ inputs.target }}" = "pypi"; then
-            python tools/verify_release_index.py --dist-dir publish-dist --expected agentic-transfer-verifier==0.2.0 \
+            python tools/verify_release_index.py --dist-dir publish-dist --expected agentic-transfer-verifier==0.2.1 \
               --host test.pypi.org --attempts 3 --wait-seconds 10
           fi
       - name: Publish to TestPyPI with OIDC
@@ -284,7 +284,7 @@ jobs:
         env:
           TARGET_HOST: ${{ inputs.target == 'testpypi' && 'test.pypi.org' || 'pypi.org' }}
         run: |
-          python tools/verify_release_index.py --dist-dir publish-dist --expected agentic-transfer-verifier==0.2.0 \
+          python tools/verify_release_index.py --dist-dir publish-dist --expected agentic-transfer-verifier==0.2.1 \
             --host "$TARGET_HOST" --attempts 8 --wait-seconds 15
 
   smoke:
@@ -306,13 +306,13 @@ jobs:
         shell: bash
         env:
           INDEX_URL: ${{ inputs.target == 'testpypi' && 'https://test.pypi.org/simple/' || 'https://pypi.org/simple/' }}
-          EXPECTED_PACKAGES: '{"agentic-transfer-verifier":"0.2.0"}'
+          EXPECTED_PACKAGES: '{"agentic-transfer-verifier":"0.2.1"}'
         run: |
           set -euo pipefail
           python -m pip install --no-cache-dir \
             --index-url "$INDEX_URL" \
             --extra-index-url https://pypi.org/simple/ \
-            "agentic-transfer-verifier==0.2.0"
+            "agentic-transfer-verifier==0.2.1"
           python - <<'PY'
           import importlib.metadata as metadata
           import json
@@ -324,5 +324,5 @@ jobs:
           python - <<'PY'
           import importlib.metadata as metadata
           import agentic_transfer_verifier
-          assert agentic_transfer_verifier.__version__ == "0.2.0"
+          assert agentic_transfer_verifier.__version__ == "0.2.1"
           PY

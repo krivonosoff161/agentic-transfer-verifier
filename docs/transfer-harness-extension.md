@@ -56,7 +56,7 @@ Build and install both source candidates explicitly:
 ```text
 python -m build --outdir dist/core .
 python -m build --no-isolation --outdir dist/extension extensions/transfer_harness_extension_v1
-python -m pip install --no-deps dist/core/agentic_transfer_verifier-0.2.0-py3-none-any.whl dist/extension/agentic_transfer_verifier_harness_extension-1.0.0-py3-none-any.whl
+python -m pip install --no-deps dist/core/agentic_transfer_verifier-0.2.1-py3-none-any.whl dist/extension/agentic_transfer_verifier_harness_extension-1.0.1-py3-none-any.whl
 ```
 
 Harness `main` already declares a source-only `transfer` extra selecting these same two
@@ -74,7 +74,7 @@ and a regenerated exact `RECORD`. Current Harness Distribution Discovery V1 requ
 declared in source metadata and the generated contract, not installed automatically.
 
 The canonical configuration binds the complete Python runtime file inventory and SHA-256
-digests of `agentic-transfer-verifier` 0.2.0. The factory checks those installed files
+digests of `agentic-transfer-verifier` 0.2.1. The factory checks those installed files
 before importing the deterministic API. This reduces ambient dependency drift but is not
 a signature, sandbox, in-memory code attestation, or defense against a hostile process
 that can replace code during import. The embedding application must provide a trusted,

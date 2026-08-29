@@ -56,7 +56,7 @@ def test_component_manifest_matches_central_v1_shape_and_local_boundary() -> Non
     assert manifest["authority"] == "none"
     assert manifest["package"] == {
         "name": "agentic-transfer-verifier",
-        "version": "0.2.0",
+        "version": "0.2.1",
         "install": "pip install .",
         "entry_points": [],
     }

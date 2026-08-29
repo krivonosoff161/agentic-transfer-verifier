@@ -97,8 +97,8 @@ explicit operator inspection and approval, consumes only canonical observations 
 digest references, and emits advisory findings. Installing the standalone package does
 not install or activate the extension.
 
-The coordinated source candidates are `agentic-transfer-verifier==0.2.0` and
-`agentic-transfer-verifier-harness-extension==1.0.0`. Build/install commands live in the
+The coordinated source candidates are `agentic-transfer-verifier==0.2.1` and
+`agentic-transfer-verifier-harness-extension==1.0.1`. Build/install commands live in the
 extension document. Harness `main` declares a source-only `transfer` extra for this exact
 pair, but neither companion distribution is published and the published Harness `v1.3.0`
 metadata does not contain that extra. Public

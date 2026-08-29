@@ -28,11 +28,11 @@ from agentic_security_harness.extension_sdk import (
 from agentic_security_harness.portfolio_contract import CanonicalObservationEventV1
 
 EXTENSION_ID: Final = "agentic-transfer-verifier.verification"
-EXTENSION_VERSION: Final = "1.0.0"
+EXTENSION_VERSION: Final = "1.0.1"
 CORE_RUNTIME_FILES: Final = (
     (
         "agentic_transfer_verifier/__init__.py",
-        "8a03b1a293cf3f85300d67f7818bb9999cbf835ebc91301af97f62286bcbb66d",
+        "81e8b1c5705098f8b812183ed9dbcc6d0bf796132e03661f76bb070191eae9d3",
     ),
     (
         "agentic_transfer_verifier/adversarial.py",
@@ -67,7 +67,7 @@ CONFIGURATION: Final = {
     "schema_version": "agentic-transfer-verifier-harness-extension-config-v1.0",
     "core_distribution": {
         "name": "agentic-transfer-verifier",
-        "version": "0.2.0",
+        "version": "0.2.1",
         "runtime_files": [{"path": path, "sha256": digest} for path, digest in CORE_RUNTIME_FILES],
     },
     "projection": "portfolio-observation-digest-only-v1",
@@ -295,7 +295,7 @@ def _verify_core_distribution() -> tuple[tuple[str, str], ...]:
         distribution = importlib.metadata.distribution("agentic-transfer-verifier")
     except importlib.metadata.PackageNotFoundError as exc:
         raise TransferHarnessExtensionError("approved core distribution is not installed") from exc
-    if distribution.version != "0.2.0":
+    if distribution.version != "0.2.1":
         raise TransferHarnessExtensionError("core distribution version differs from V1")
     files = distribution.files
     if files is None:

@@ -79,14 +79,15 @@ def _build_and_install(tmp_path: Path) -> tuple[Path, Path]:
     wheels = tuple(dist.glob("*.whl"))
     sdists = tuple(dist.glob("*.tar.gz"))
     assert len(wheels) == len(sdists) == 1
+    assert sdists[0].name == "agentic_transfer_verifier_harness_extension-1.0.1.tar.gz"
     with tarfile.open(sdists[0], mode="r:gz") as archive:
-        root = f"{DIST_NAME}-1.0.0"
+        root = "agentic_transfer_verifier_harness_extension-1.0.1"
         pkg_info = archive.extractfile(f"{root}/PKG-INFO")
         assert pkg_info is not None
         metadata = pkg_info.read()
         assert metadata.startswith(b"Metadata-Version: 2.4\n")
         assert b"Name: agentic-transfer-verifier-harness-extension\n" in metadata
-        assert b"Version: 1.0.0\n" in metadata
+        assert b"Version: 1.0.1\n" in metadata
     core_wheels = tuple(core_dist.glob("*.whl"))
     assert len(core_wheels) == 1
     pip_target = tmp_path / "pip-installed"
