@@ -32,7 +32,7 @@ EXTENSION_VERSION: Final = "1.0.1"
 CORE_RUNTIME_FILES: Final = (
     (
         "agentic_transfer_verifier/__init__.py",
-        "8a03b1a293cf3f85300d67f7818bb9999cbf835ebc91301af97f62286bcbb66d",
+        "81e8b1c5705098f8b812183ed9dbcc6d0bf796132e03661f76bb070191eae9d3",
     ),
     (
         "agentic_transfer_verifier/adversarial.py",
