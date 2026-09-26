@@ -1,9 +1,8 @@
 # Package and CI contract
 
-`agentic-transfer-verifier` is a source package with a public Python API. It does not
-currently define a console-script entry point and is not yet an installable Harness
-extension. CI therefore exercises the installed Python contract rather than inventing a
-CLI surface.
+`agentic-transfer-verifier==0.2.1` is the immutable published Python API package.
+This source branch adds an unreleased console-script entry point and four local
+synthetic examples. The optional Harness extension is a separate distribution.
 
 For every supported Python version (3.10, 3.11, and 3.12), the workflow runs on both
 Ubuntu and Windows and performs:
@@ -16,8 +15,8 @@ Ubuntu and Windows and performs:
 5. independent sdist and wheel builds;
 6. archive path/link/size checks, including the sdist review/contract surface;
 7. the shipped synthetic tests from a safely reconstructed sdist tree; and
-8. a no-dependency wheel installation and installed-package verification smoke in a
-   fresh virtual environment outside the checkout.
+8. a no-dependency wheel installation and installed-package verification smoke,
+   including the actual console script, in a fresh virtual environment outside the checkout.
 
 The workflow actions are pinned to exact commits and receive read-only repository
 contents permission. `persist-credentials` is disabled after checkout.

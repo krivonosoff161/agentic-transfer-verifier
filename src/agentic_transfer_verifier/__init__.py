@@ -17,6 +17,7 @@ from agentic_transfer_verifier.asset_leakage import (
     leakage_scenario_corpus,
     trading_signal_canary,
 )
+from agentic_transfer_verifier.json_envelope import EnvelopeInputError, load_json_envelope
 from agentic_transfer_verifier.models import (
     CapabilityGrant,
     Finding,
@@ -52,6 +53,7 @@ __all__ = [
     "ChainAssessment",
     "CanonicalObservationV1",
     "DetectionSignal",
+    "EnvelopeInputError",
     "Finding",
     "IdentityClaim",
     "ProvenanceStep",
@@ -75,6 +77,7 @@ __all__ = [
     "attack_chain_corpus",
     "detection_signal_catalog",
     "leakage_scenario_corpus",
+    "load_json_envelope",
     "load_transfer_envelope",
     "project_transfer_envelope",
     "scenario_corpus",

@@ -33,6 +33,9 @@ dev = [
   "wheel>=0.44",
 ]
 
+[project.scripts]
+agentic-transfer-verifier = "agentic_transfer_verifier.cli:main"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 

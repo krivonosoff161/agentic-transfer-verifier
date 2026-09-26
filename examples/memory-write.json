@@ -1,0 +1,11 @@
+{
+  "envelope_id": "synthetic-memory-write",
+  "producer": "note-agent",
+  "consumer": "local-memory-fixture",
+  "payload_kind": "memory_note",
+  "trust_level": "untrusted",
+  "authority_scope": "none",
+  "consumed_as": "memory",
+  "payload": {"note": "Synthetic preference: concise reports."},
+  "provenance": [{"actor": "fixture", "action": "created", "source": "local-synthetic"}]
+}

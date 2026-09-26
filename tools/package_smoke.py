@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import shutil
 import stat
@@ -22,6 +23,8 @@ REQUIRED_WHEEL_PATHS = {
     "agentic_transfer_verifier/__init__.py",
     "agentic_transfer_verifier/portfolio_adapter.py",
     "agentic_transfer_verifier/verifier.py",
+    "agentic_transfer_verifier/cli.py",
+    "agentic_transfer_verifier/json_envelope.py",
 }
 REQUIRED_SDIST_PATHS = {
     ".github/workflows/tests.yml",
@@ -29,6 +32,10 @@ REQUIRED_SDIST_PATHS = {
     "component.yaml",
     "contracts/portfolio-observation.v1.owner-pin.json",
     "docs/package-ci.md",
+    "examples/tool-output.json",
+    "examples/memory-write.json",
+    "examples/approval.json",
+    "examples/ocr-transcript.json",
     "tests/test_package_quality_tools.py",
     "tests/test_portfolio_adapter.py",
     "tools/package_smoke.py",
@@ -102,6 +109,11 @@ def _validate_sdist(path: Path) -> None:
 
 def _venv_python(root: Path) -> Path:
     return root / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+
+
+def _venv_script(root: Path) -> Path:
+    return root / ("Scripts/agentic-transfer-verifier.exe" if os.name == "nt" else
+                   "bin/agentic-transfer-verifier")
 
 
 def _extract_sdist(sdist: Path, destination: Path) -> Path:
@@ -224,6 +236,21 @@ def _installed_smoke(wheel: Path, expected_version: str) -> None:
             env=clean_env,
             timeout=60,
         )
+        fixture = root / "input.json"
+        fixture.write_text(
+            '{"envelope_id":"installed-smoke","producer":"fixture-a",'
+            '"consumer":"fixture-b","payload_kind":"summary",'
+            '"trust_level":"untrusted","authority_scope":"none",'
+            '"payload":{"synthetic":true},"provenance":'
+            '[{"actor":"fixture","action":"created","source":"local"}]}',
+            encoding="utf-8",
+        )
+        result = subprocess.run(
+            [str(_venv_script(environment)), "verify", str(fixture)],
+            check=False, capture_output=True, text=True, cwd=root, env=clean_env, timeout=60,
+        )
+        if result.returncode != 0 or json.loads(result.stdout)["status"] != "PASS":
+            raise ValueError("installed console entry point verification failed")
 
 
 def main() -> int:

@@ -83,11 +83,30 @@ whole portfolio.
 python -m pip install agentic-transfer-verifier==0.2.1
 ```
 
-For contributor work, clone the repository and use `pip install -e .[dev]`. The package currently exposes a
-Python API and no command-line entry point. Its CI builds both an sdist and wheel on
+For contributor work, clone the repository and use `pip install -e .[dev]`. The published
+0.2.1 package exposes the Python API. This source branch adds an unreleased local CLI;
+it does not change the published package. CI builds both an sdist and wheel on
 Linux and Windows for Python 3.10-3.12, then installs the wheel in a fresh virtual
 environment and exercises the public verification contract. See
 [Package and CI contract](docs/package-ci.md).
+
+## Unreleased local JSON CLI
+
+From a source checkout with the package installed, verify one local envelope:
+
+```bash
+agentic-transfer-verifier verify examples/tool-output.json
+agentic-transfer-verifier verify examples/approval.json --format markdown --output report.md
+```
+
+The command reads a local UTF-8 JSON file or `-` for standard input. It writes JSON to
+standard output by default; `--format markdown` selects a Markdown report. `--output`
+creates a new file exclusively. Existing output requires explicit `--overwrite`.
+Exit codes are `0` PASS, `1` WARN, `2` FAIL, `3` malformed input, and `4` input or
+report I/O failure. Malformed input does not reach the verifier. Reports contain only
+the envelope ID, status, and structural findings; they never include payload content.
+The CLI does not execute records, access providers, authenticate identities, or grant
+authority. See [Data envelope](docs/data-envelope.md) for loader bounds.
 
 The optional nested extension distribution is documented separately in
 [Transfer Verifier Harness Extension V1](docs/transfer-harness-extension.md). It uses
