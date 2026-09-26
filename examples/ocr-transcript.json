@@ -1,0 +1,10 @@
+{
+  "envelope_id": "synthetic-ocr-transcript",
+  "producer": "local-ocr-fixture",
+  "consumer": "review-agent",
+  "payload_kind": "ocr_transcript",
+  "trust_level": "untrusted",
+  "authority_scope": "none",
+  "payload": {"text": "Synthetic sign: Meeting room A."},
+  "provenance": [{"actor": "fixture", "action": "transcribed", "source": "local-synthetic"}]
+}

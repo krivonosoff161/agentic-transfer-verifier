@@ -23,6 +23,9 @@ The coordinated public distributions are `agentic-transfer-verifier==0.2.1` and
 them through the `transfer` extra. Clean PyPI installation is release evidence only;
 extension inspection, approval, and lifecycle binding remain explicit runtime gates.
 
+The local JSON CLI and report artifacts are an unreleased source change for issue #1.
+They do not alter the published 0.2.1 distribution or the extension contract.
+
 ## Ordered delivery gates
 
 1. **Documentation convergence — active.** Keep this roadmap, `component.yaml`, README,

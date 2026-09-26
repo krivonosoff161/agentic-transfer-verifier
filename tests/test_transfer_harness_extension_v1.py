@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import importlib
+import importlib.util
 import json
 import os
 import shutil
@@ -20,6 +21,8 @@ ROOT = Path(__file__).resolve().parents[1]
 EXTENSION_ROOT = ROOT / "extensions" / "transfer_harness_extension_v1"
 HARNESS_COMMIT = "c1dd69856212458ae952e43aeb2b0cc9290e8205"
 HARNESS_TREE = "596c189e8b15ceaf7bf28337546655e23d47d3ef"
+CORE_COMMIT = "f4f464a085734b3a9296d337ad87897954905e2a"
+CORE_TREE = "b75caee39d50b48b54f07070e4c8193518d43333"
 DIST_NAME = "agentic-transfer-verifier-harness-extension"
 EXTENSION_ID = "agentic-transfer-verifier.verification"
 
@@ -31,6 +34,17 @@ def _harness_root() -> Path:
     root = Path(value).resolve()
     assert _git(root, "rev-parse", "HEAD") == HARNESS_COMMIT
     assert _git(root, "show", "-s", "--format=%T", "HEAD") == HARNESS_TREE
+    assert _git(root, "status", "--porcelain=v1", "--untracked-files=all") == ""
+    return root
+
+
+def _core_root() -> Path:
+    value = os.environ.get("TRANSFER_PINNED_CORE_ROOT")
+    if not value:
+        pytest.skip("TRANSFER_PINNED_CORE_ROOT is required for exact extension smoke")
+    root = Path(value).resolve()
+    assert _git(root, "rev-parse", "HEAD") == CORE_COMMIT
+    assert _git(root, "show", "-s", "--format=%T", "HEAD") == CORE_TREE
     assert _git(root, "status", "--porcelain=v1", "--untracked-files=all") == ""
     return root
 
@@ -48,7 +62,7 @@ def _git(root: Path, *args: str) -> str:
 def _build_and_install(tmp_path: Path) -> tuple[Path, Path]:
     dist = tmp_path / "dist"
     core_dist = tmp_path / "core-dist"
-    core_source = _git_source_snapshot(tmp_path)
+    core_source = _git_source_snapshot(tmp_path, _core_root())
     subprocess.run(
         [
             sys.executable,
@@ -114,12 +128,12 @@ def _build_and_install(tmp_path: Path) -> tuple[Path, Path]:
     return wheels[0], target
 
 
-def _git_source_snapshot(tmp_path: Path) -> Path:
+def _git_source_snapshot(tmp_path: Path, core_root: Path) -> Path:
     archive_path = tmp_path / "core-source.tar"
     subprocess.run(
         ["git", "archive", "--format=tar", f"--output={archive_path}", "HEAD"],
         check=True,
-        cwd=ROOT,
+        cwd=core_root,
     )
     destination = tmp_path / "core-source"
     destination.mkdir()
@@ -164,6 +178,39 @@ def _stable_install_snapshot(source: Path, destination: Path) -> None:
         if candidate.is_file() and not candidate.is_symlink()
     }
     assert copied_files == source_files
+
+
+def test_unreleased_cli_core_is_rejected_by_published_extension(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    harness_root = _harness_root()
+    candidate_source = _git_source_snapshot(tmp_path, ROOT)
+    candidate_dist = tmp_path / "candidate-dist"
+    subprocess.run(
+        [sys.executable, "-m", "build", "--wheel", "--no-isolation", "--outdir",
+         str(candidate_dist), str(candidate_source)],
+        check=True, cwd=ROOT,
+    )
+    wheels = tuple(candidate_dist.glob("*.whl"))
+    assert len(wheels) == 1
+    candidate_install = tmp_path / "candidate-installed"
+    subprocess.run(
+        [sys.executable, "-m", "pip", "install", "--disable-pip-version-check",
+         "--no-index", "--no-deps", "--no-compile", "--target", str(candidate_install),
+         str(wheels[0])],
+        check=True, cwd=tmp_path,
+    )
+    monkeypatch.syspath_prepend(str(harness_root / "src"))
+    monkeypatch.syspath_prepend(str(candidate_install))
+    source = EXTENSION_ROOT / "agentic_transfer_verifier_extension.py"
+    spec = importlib.util.spec_from_file_location("published_extension_probe", source)
+    assert spec is not None and spec.loader is not None
+    implementation = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(implementation)
+    with pytest.raises(
+        implementation.TransferHarnessExtensionError, match="core runtime file inventory differs"
+    ):
+        implementation._verify_core_distribution()
 
 
 def _event(portfolio_contract: Any, *, activity: str, telemetry: str, seed: str) -> Any:
@@ -313,6 +360,7 @@ def test_exact_wheel_inspect_approve_bind_and_run_is_advisory_only(
 
 def test_generated_contracts_and_extension_source_are_closed() -> None:
     harness_root = _harness_root()
+    core_root = _core_root()
     subprocess.run(
         [
             sys.executable,
@@ -343,7 +391,9 @@ def test_generated_contracts_and_extension_source_are_closed() -> None:
     assert contract_eol.strip() == f"{generated_contract}: eol: lf"
     configuration = json.loads((EXTENSION_ROOT / "configuration.json").read_text("utf-8"))
     for binding in configuration["core_distribution"]["runtime_files"]:
-        git_blob = subprocess.check_output(["git", "show", f"HEAD:src/{binding['path']}"], cwd=ROOT)
+        git_blob = subprocess.check_output(
+            ["git", "show", f"HEAD:src/{binding['path']}"], cwd=core_root
+        )
         assert hashlib.sha256(git_blob).hexdigest() == binding["sha256"]
     closure = {item["path"] for item in manifest["source_closure"]}
     assert {

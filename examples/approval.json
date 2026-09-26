@@ -1,0 +1,12 @@
+{
+  "envelope_id": "synthetic-approval",
+  "producer": "approval-fixture",
+  "consumer": "review-agent",
+  "payload_kind": "approval_record",
+  "trust_level": "user_confirmed",
+  "authority_scope": "none",
+  "approval_id": "synthetic-approval-1",
+  "approval_binding": "synthetic-document-review-only",
+  "payload": {"decision": "review only; no action granted"},
+  "provenance": [{"actor": "fixture", "action": "declared", "source": "local-synthetic"}]
+}

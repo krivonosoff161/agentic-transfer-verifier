@@ -1,0 +1,10 @@
+{
+  "envelope_id": "synthetic-tool-output",
+  "producer": "local-tool-fixture",
+  "consumer": "review-agent",
+  "payload_kind": "tool_output",
+  "trust_level": "untrusted",
+  "authority_scope": "none",
+  "payload": {"summary": "Synthetic tool returned three local records."},
+  "provenance": [{"actor": "fixture", "action": "generated", "source": "local-synthetic"}]
+}
