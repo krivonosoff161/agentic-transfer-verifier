@@ -89,6 +89,13 @@ jobs:
           ref: c1dd69856212458ae952e43aeb2b0cc9290e8205
           path: components/harness-lifecycle-v1
           persist-credentials: false
+      - name: Check out exact published core source for extension smoke
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: krivonosoff161/agentic-transfer-verifier
+          ref: f4f464a085734b3a9296d337ad87897954905e2a
+          path: components/transfer-core-0.2.1
+          persist-credentials: false
       - name: Install exact SDK
         run: |
           python -m pip install -e components/harness-lifecycle-v1
@@ -101,6 +108,7 @@ jobs:
       - name: Installed-wheel inspect approve bind and run smoke
         env:
           ASH_HARNESS_SDK_ROOT: ${{ github.workspace }}/components/harness-lifecycle-v1
+          TRANSFER_PINNED_CORE_ROOT: ${{ github.workspace }}/components/transfer-core-0.2.1
         run: python -m pytest -q -p no:cacheprovider tests/test_transfer_harness_extension_v1.py
       - name: Build exact extension release candidates
         run: python -m build --no-isolation --outdir dist/extension extensions/transfer_harness_extension_v1
