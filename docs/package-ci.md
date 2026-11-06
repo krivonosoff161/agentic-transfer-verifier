@@ -1,8 +1,9 @@
 # Package and CI contract
 
 `agentic-transfer-verifier==0.2.1` is the immutable published Python API package.
-This source branch adds an unreleased console-script entry point and four local
-synthetic examples. The optional Harness extension is a separate distribution.
+This source branch prepares an unpublished core 0.3.0 candidate with a console-script
+entry point and four local synthetic examples. The optional published Harness extension
+remains a separate distribution pinned to the published 0.2.1 core contract.
 
 For every supported Python version (3.10, 3.11, and 3.12), the workflow runs on both
 Ubuntu and Windows and performs:
@@ -26,3 +27,10 @@ matrix. They do not prove that the package is free of all secrets or vulnerabili
 authenticate transfer producers, provide a sandbox, or grant operational authority.
 Publishing to an index, release tagging, Harness activation, provider calls, and
 deployment remain separate gates.
+
+The core release workflow accepts only tag `v0.3.0` for this source version. Its
+closed release set is the core 0.3.0 wheel and sdist plus checksums, with exact
+artifact, attestation, index-hash, and clean-install gates. It does not build or
+republish extension 1.0.1. The historical extension publication workflow explicitly
+requires its original `v0.2.1` tag and 0.2.1/1.0.1 artifact closure; it rejects a
+new core tag. A local 0.3.0 wheel is a candidate, not evidence of index availability.

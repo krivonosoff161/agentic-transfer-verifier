@@ -90,6 +90,8 @@ def inspect_release(dist_dir: Path, expected: tuple[str, ...]) -> tuple[Artifact
             f"release identity mismatch: expected={sorted(expected_pairs)}, "
             f"observed={sorted(observed_pairs)}"
         )
+    if len(artifacts) != 2 * len(expected_pairs):
+        raise ValueError("release artifact count must be one wheel and one sdist per package")
     for pair in sorted(expected_pairs):
         types = {item.package_type for item in artifacts if (item.name, item.version) == pair}
         if types != {"bdist_wheel", "sdist"}:

@@ -84,13 +84,21 @@ python -m pip install agentic-transfer-verifier==0.2.1
 ```
 
 For contributor work, clone the repository and use `pip install -e .[dev]`. The published
-0.2.1 package exposes the Python API. This source branch adds an unreleased local CLI;
-it does not change the published package. CI builds both an sdist and wheel on
+0.2.1 package exposes the Python API. This source branch prepares a **0.3.0 core
+release candidate** with a local CLI; 0.3.0 is not published. To try the candidate,
+build a local wheel and install that wheel in a fresh environment:
+
+```bash
+python -m build --wheel --outdir ../transfer-core-candidate-dist .
+python -m pip install --no-index --no-deps ../transfer-core-candidate-dist/agentic_transfer_verifier-0.3.0-py3-none-any.whl
+```
+
+CI builds an sdist and wheel on
 Linux and Windows for Python 3.10-3.12, then installs the wheel in a fresh virtual
 environment and exercises the public verification contract. See
 [Package and CI contract](docs/package-ci.md).
 
-## Unreleased local JSON CLI
+## Core 0.3.0 candidate JSON CLI
 
 From a source checkout with the package installed, verify one local envelope:
 
@@ -114,7 +122,7 @@ explicit operator inspection and approval, consumes only canonical observations 
 digest references, and emits advisory findings. Installing the standalone package does
 not install or activate the extension.
 
-The coordinated public distributions are `agentic-transfer-verifier==0.2.1` and
+The currently published coordinated public distributions are `agentic-transfer-verifier==0.2.1` and
 `agentic-transfer-verifier-harness-extension==1.0.1`. Build/install commands live in the
 extension document. Published Harness `v1.4.0` resolves this exact pair from PyPI:
 
