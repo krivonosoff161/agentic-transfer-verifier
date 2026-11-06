@@ -218,9 +218,9 @@ def test_unreleased_cli_core_is_rejected_by_published_extension(
     # A forged legacy version label must not hide the newer runtime file inventory.
     metadata_path = next(candidate_install.glob("*.dist-info/METADATA"))
     metadata_bytes = metadata_path.read_bytes()
-    assert b"\nVersion: 0.3.0\n" in metadata_bytes
+    assert b"Version: 0.3.0" in metadata_bytes.splitlines()
     metadata_path.write_bytes(
-        metadata_bytes.replace(b"\nVersion: 0.3.0\n", b"\nVersion: 0.2.1\n", 1)
+        metadata_bytes.replace(b"Version: 0.3.0", b"Version: 0.2.1", 1)
     )
     assert importlib.metadata.version("agentic-transfer-verifier") == "0.2.1"
     with pytest.raises(
