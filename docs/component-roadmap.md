@@ -18,13 +18,15 @@ is tested against the pinned Lifecycle head on Linux and Windows. The standalone
 still registers no Harness entry point. The extension is published, but is not
 automatically loaded, approved, signed, sandboxed, or enabled by installing the core package.
 
-The coordinated public distributions are `agentic-transfer-verifier==0.2.1` and
+The currently published coordinated distributions are `agentic-transfer-verifier==0.2.1` and
 `agentic-transfer-verifier-harness-extension==1.0.1`. Published Harness `v1.4.0` exposes
 them through the `transfer` extra. Clean PyPI installation is release evidence only;
 extension inspection, approval, and lifecycle binding remain explicit runtime gates.
 
-The local JSON CLI and report artifacts are an unreleased source change for issue #1.
-They do not alter the published 0.2.1 distribution or the extension contract.
+The local JSON CLI and report artifacts are an unpublished core 0.3.0 release candidate.
+They do not alter the published 0.2.1 distribution or the extension 1.0.1 contract.
+`component.yaml` describes the local 0.3.0 source candidate; the published Harness
+`transfer` extra still resolves the exact 0.2.1/1.0.1 pair.
 
 ## Ordered delivery gates
 

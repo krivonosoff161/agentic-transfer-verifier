@@ -245,12 +245,50 @@ def _installed_smoke(wheel: Path, expected_version: str) -> None:
             '[{"actor":"fixture","action":"created","source":"local"}]}',
             encoding="utf-8",
         )
-        result = subprocess.run(
-            [str(_venv_script(environment)), "verify", str(fixture)],
-            check=False, capture_output=True, text=True, cwd=root, env=clean_env, timeout=60,
-        )
+        script = str(_venv_script(environment))
+
+        def cli(*args: str, input_bytes: bytes | None = None) -> subprocess.CompletedProcess[bytes]:
+            return subprocess.run(
+                [script, "verify", *args], input=input_bytes,
+                check=False, capture_output=True, cwd=root, env=clean_env, timeout=60,
+            )
+
+        result = cli(str(fixture))
         if result.returncode != 0 or json.loads(result.stdout)["status"] != "PASS":
             raise ValueError("installed console entry point verification failed")
+        stdin_result = cli("-", input_bytes=fixture.read_bytes())
+        if stdin_result.returncode != 0 or stdin_result.stdout != result.stdout:
+            raise ValueError("installed stdin verification failed")
+
+        report_path = root / "report.md"
+        markdown = cli(str(fixture), "--format", "markdown", "--output", str(report_path))
+        if (
+            markdown.returncode != 0
+            or markdown.stdout
+            or "Status: **PASS**" not in report_path.read_text("utf-8")
+        ):
+            raise ValueError("installed Markdown report failed")
+        if cli(str(fixture), "--output", str(report_path)).returncode != 4:
+            raise ValueError("installed exclusive output check failed")
+
+        failing = json.loads(fixture.read_text("utf-8"))
+        failing["provenance"] = []
+        fixture.write_text(json.dumps(failing), encoding="utf-8")
+        if cli(str(fixture)).returncode != 2:
+            raise ValueError("installed FAIL exit code mismatch")
+        failing["provenance"] = [{"actor": "fixture", "action": "created", "source": "local"}]
+        failing["consumer"] = failing["producer"]
+        fixture.write_text(json.dumps(failing), encoding="utf-8")
+        if cli(str(fixture)).returncode != 1:
+            raise ValueError("installed WARN exit code mismatch")
+
+        marker = "synthetic-private-payload-marker"
+        malformed = cli("-", input_bytes=f'{{"payload":"{marker}"}}'.encode())
+        if malformed.returncode != 3 or malformed.stdout or marker.encode() in malformed.stderr:
+            raise ValueError("installed malformed-input privacy or exit check failed")
+        missing = cli(str(root / "absent.json"))
+        if missing.returncode != 4 or missing.stdout:
+            raise ValueError("installed input I/O exit check failed")
 
 
 def main() -> int:

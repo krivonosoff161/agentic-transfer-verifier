@@ -51,13 +51,20 @@ this repository performs no automatic discovery, import, download, or activation
 
 ## Coordinated source installation
 
-For source review, build and install both distributions explicitly:
+For source review, use a separate checkout of the published core source at exact commit
+`f4f464a085734b3a9296d337ad87897954905e2a` as
+`../transfer-core-0.2.1`. From this repository, build that core and the extension
+explicitly into a review directory outside the source tree:
 
 ```text
-python -m build --outdir dist/core .
-python -m build --no-isolation --outdir dist/extension extensions/transfer_harness_extension_v1
-python -m pip install --no-deps dist/core/agentic_transfer_verifier-0.2.1-py3-none-any.whl dist/extension/agentic_transfer_verifier_harness_extension-1.0.1-py3-none-any.whl
+python -m build --outdir ../transfer-extension-review-dist/core ../transfer-core-0.2.1
+python -m build --no-isolation --outdir ../transfer-extension-review-dist/extension extensions/transfer_harness_extension_v1
+python -m pip install --no-deps ../transfer-extension-review-dist/core/agentic_transfer_verifier-0.2.1-py3-none-any.whl ../transfer-extension-review-dist/extension/agentic_transfer_verifier_harness_extension-1.0.1-py3-none-any.whl
 ```
+
+The current core 0.3.0 source is an unpublished CLI candidate. Its wheel does not
+match the extension 1.0.1 runtime inventory and is intentionally refused by that
+extension. The published 0.2.1/1.0.1 pair remains the compatible pair.
 
 Published Harness `v1.4.0` declares a `transfer` extra selecting these same two exact
 public distributions. The extension intentionally has no `Requires-Dist`; the Harness
